@@ -1,0 +1,21 @@
+{
+    "name": "qafoolabs/framework-extra-bundle",
+    "type": "symfony-bundle",
+    "keywords": ["symfony", "bundle"],
+    "description": "Various improvements for Symfony applications",
+    "license": "MIT",
+    "authors": [
+        {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"}
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.1"
+    },
+    "require-dev": {
+        "phake/phake": "@stable",
+        "symfony/form": "@stable",
+        "jms/serializer": "@stable"
+    },
+    "autoload": {
+        "psr-0": {"QafooLabs\\Bundle\\FrameworkExtraBundle\\": "src/"}
+    }
+}

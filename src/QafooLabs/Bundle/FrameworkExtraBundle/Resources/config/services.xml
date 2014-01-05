@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="qafoo_labs_framework_extra.controller_utils.class">QafooLabs\Bundle\FrameworkExtraBundle\Controller\ControllerUtils</parameter>
+        <parameter key="qafoo_labs_framework_extra.view_listener.class">QafooLabs\Bundle\FrameworkExtraBundle\EventListener\ViewListener</parameter>
+        <parameter key="qafoo_labs_framework_extra.template_guesser.class">QafooLabs\Bundle\FrameworkExtraBundle\View\SymfonyConventionsTemplateGuesser</parameter>
+        <parameter key="qafoo_labs_framework_extra.serializer_view_engine.class">QafooLabs\Bundle\FrameworkExtraBundle\Templating\JmsSerializerEngine</parameter>
+    </parameters>
+
+    <services>
+        <service id="qafoo_labs_framework_extra.controller_utils" class="%qafoo_labs_framework_extra.controller_utils.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="qafoo_labs_framework_extra.view_listener" class="%qafoo_labs_framework_extra.view_listener.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="qafoo_labs_framework_extra.template_guesser" />
+            <argument>twig</argument>
+
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />
+        </service>
+
+        <service id="qafoo_labs_framework_extra.template_guesser" class="%qafoo_labs_framework_extra.template_guesser.class%">
+            <argument type="service" id="qafoo_labs_framework_extra.bundle_location" />
+            <argument type="service" id="controller_name_converter" />
+        </service>
+
+        <service id="qafoo_labs_framework_extra.bundle_location" class="%qafoo_labs_framework_extra.bundle_location.class%">
+            <argument type="service" id="kernel" />
+        </service>
+
+        <service id="templating.engine.jms" class="%qafoo_labs_framework_extra.serializer_view_engine.class%">
+            <argument type="service" id="serializer" on-invalid="null" />
+
+            <tag name="templating.engine" />
+        </service>
+    </services>
+</container>

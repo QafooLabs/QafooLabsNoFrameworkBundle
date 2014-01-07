@@ -9,6 +9,7 @@
         <parameter key="qafoo_labs_framework_extra.view_listener.class">QafooLabs\Bundle\FrameworkExtraBundle\EventListener\ViewListener</parameter>
         <parameter key="qafoo_labs_framework_extra.template_guesser.class">QafooLabs\Bundle\FrameworkExtraBundle\View\SymfonyConventionsTemplateGuesser</parameter>
         <parameter key="qafoo_labs_framework_extra.serializer_view_engine.class">QafooLabs\Bundle\FrameworkExtraBundle\Templating\JmsSerializerEngine</parameter>
+        <parameter key="qafoo_labs_framework_extra.bundle_location.class">QafooLabs\Bundle\FrameworkExtraBundle\View\BundleLocation</parameter>
     </parameters>
 
     <services>

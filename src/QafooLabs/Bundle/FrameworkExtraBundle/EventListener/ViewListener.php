@@ -4,7 +4,6 @@ namespace QafooLabs\Bundle\FrameworkExtraBundle\EventListener;
 
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Response;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateGuesser;

@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="qafoo_labs_framework_extra.controller_utils.class">QafooLabs\Bundle\FrameworkExtraBundle\Controller\ControllerUtils</parameter>
         <parameter key="qafoo_labs_framework_extra.view_listener.class">QafooLabs\Bundle\FrameworkExtraBundle\EventListener\ViewListener</parameter>
+        <parameter key="qafoo_labs_framework_extra.redirect_listener.class">QafooLabs\Bundle\FrameworkExtraBundle\EventListener\RedirectListener</parameter>
         <parameter key="qafoo_labs_framework_extra.template_guesser.class">QafooLabs\Bundle\FrameworkExtraBundle\View\SymfonyConventionsTemplateGuesser</parameter>
         <parameter key="qafoo_labs_framework_extra.serializer_view_engine.class">QafooLabs\Bundle\FrameworkExtraBundle\Templating\JmsSerializerEngine</parameter>
         <parameter key="qafoo_labs_framework_extra.bundle_location.class">QafooLabs\Bundle\FrameworkExtraBundle\View\BundleLocation</parameter>
@@ -22,7 +23,7 @@
             <argument type="service" id="qafoo_labs_framework_extra.template_guesser" />
             <argument>twig</argument>
 
-            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="10" />
         </service>
 
         <service id="qafoo_labs_framework_extra.template_guesser" class="%qafoo_labs_framework_extra.template_guesser.class%">
@@ -38,6 +39,12 @@
             <argument type="service" id="serializer" on-invalid="null" />
 
             <tag name="templating.engine" />
+        </service>
+
+        <service id="qafoo_labs_framework_extra.redirect_listener" class="%qafoo_labs_framework_extra.redirect_listener.class%">
+            <argument type="service" id="router" />
+
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="20" />
         </service>
     </services>
 </container>

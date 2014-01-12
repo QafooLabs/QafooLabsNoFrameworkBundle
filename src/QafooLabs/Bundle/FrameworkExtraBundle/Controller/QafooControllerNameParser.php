@@ -12,7 +12,7 @@ class QafooControllerNameParser
 
     public function __construct(ControllerNameParser $parser, ContainerInterface $container)
     {
-        $this->symfonyParser = $symfonyParser;
+        $this->symfonyParser = $parser;
         $this->container = $container;
     }
 

@@ -11,7 +11,7 @@ class SymfonyConventionsTemplateGuesserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->bundleLocation = \Phake::mock('QafooLabs\Bundle\FrameworkExtraBundle\View\BundleLocation');
-        $this->parser = \Phake::mock('Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser');
+        $this->parser = \Phake::mock('QafooLabs\Bundle\FrameworkExtraBundle\Controller\QafooControllerNameParser');
 
         $this->guesser = new SymfonyConventionsTemplateGuesser(
             $this->bundleLocation,

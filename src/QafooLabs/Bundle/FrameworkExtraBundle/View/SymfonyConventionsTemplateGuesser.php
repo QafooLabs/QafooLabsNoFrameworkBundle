@@ -2,7 +2,7 @@
 
 namespace QafooLabs\Bundle\FrameworkExtraBundle\View;
 
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser;
+use QafooLabs\Bundle\FrameworkExtraBundle\Controller\QafooControllerNameParser;
 
 /**
  * Guess Templates based on Symfony and SensioFrameworkExtra conventions
@@ -15,11 +15,11 @@ class SymfonyConventionsTemplateGuesser implements TemplateGuesser
     private $bundleLocation;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser
+     * @var \QafooLabs\Bundle\FrameworkExtraBundle\Controller\QafooControllerNameParser
      */
     private $parser;
 
-    public function __construct(BundleLocation $bundleLocation, ControllerNameParser $parser)
+    public function __construct(BundleLocation $bundleLocation, QafooControllerNameParser $parser)
     {
         $this->bundleLocation = $bundleLocation;
         $this->parser = $parser;

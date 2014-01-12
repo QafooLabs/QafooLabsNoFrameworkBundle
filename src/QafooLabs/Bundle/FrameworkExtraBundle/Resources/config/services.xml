@@ -11,9 +11,15 @@
         <parameter key="qafoo_labs_framework_extra.template_guesser.class">QafooLabs\Bundle\FrameworkExtraBundle\View\SymfonyConventionsTemplateGuesser</parameter>
         <parameter key="qafoo_labs_framework_extra.serializer_view_engine.class">QafooLabs\Bundle\FrameworkExtraBundle\Templating\JmsSerializerEngine</parameter>
         <parameter key="qafoo_labs_framework_extra.bundle_location.class">QafooLabs\Bundle\FrameworkExtraBundle\View\BundleLocation</parameter>
+        <parameter key="qafoo_labs_framework_extra.controller.name_parser.class">QafooLabs\Bundle\FrameworkExtraBundle\Controller\QafooControllerNameParser</parameter>
     </parameters>
 
     <services>
+        <service id="qafoo_labs_framework_extra.controller.name_parser" class="%qafoo_labs_framework_extra.controller.name_parser.class%">
+            <argument type="service" id="controller_name_converter" />
+            <argument type="service" id="service_container" />
+        </service>
+
         <service id="qafoo_labs_framework_extra.controller_utils" class="%qafoo_labs_framework_extra.controller_utils.class%">
             <argument type="service" id="service_container" />
         </service>
@@ -28,7 +34,7 @@
 
         <service id="qafoo_labs_framework_extra.template_guesser" class="%qafoo_labs_framework_extra.template_guesser.class%">
             <argument type="service" id="qafoo_labs_framework_extra.bundle_location" />
-            <argument type="service" id="controller_name_converter" />
+            <argument type="service" id="qafoo_labs_framework_extra.controller.name_parser" />
         </service>
 
         <service id="qafoo_labs_framework_extra.bundle_location" class="%qafoo_labs_framework_extra.bundle_location.class%">

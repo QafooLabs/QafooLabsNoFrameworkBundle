@@ -12,6 +12,7 @@
         <parameter key="qafoo_labs_framework_extra.serializer_view_engine.class">QafooLabs\Bundle\FrameworkExtraBundle\Templating\JmsSerializerEngine</parameter>
         <parameter key="qafoo_labs_framework_extra.bundle_location.class">QafooLabs\Bundle\FrameworkExtraBundle\View\BundleLocation</parameter>
         <parameter key="qafoo_labs_framework_extra.controller.name_parser.class">QafooLabs\Bundle\FrameworkExtraBundle\Controller\QafooControllerNameParser</parameter>
+        <parameter key="qafoo_labs_framework_extra.convert_exception_listener.class">QafooLabs\Bundle\FrameworkExtraBundle\EventListener\ConvertExceptionListener</parameter>
     </parameters>
 
     <services>
@@ -51,6 +52,13 @@
             <argument type="service" id="router" />
 
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="20" />
+        </service>
+
+        <service id="qafoo_labs_framework_extra.convert_exception_listener" class="%qafoo_labs_framework_extra.convert_exception_listener.class%">
+            <argument type="service" id="logger" />
+            <argument>%qafoo_labs_framework_extra.convert_exceptions_map%</argument>
+
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
         </service>
     </services>
 </container>

@@ -26,5 +26,11 @@ class QafooLabsFrameworkExtraExtension extends Extension
         $loader->load('services.xml');
 
         $container->setAlias('controller_utils', 'qafoo_labs_framework_extra.controller_utils');
+
+        if ($config['convert_exceptions']) {
+            $container->setParameter('qafoo_labs_framework_extra.convert_exceptions_map', $config['convert_exceptions']);
+        } else {
+            $container->removeDefinition('qafoo_labs_framework_extra.convert_exception_listener');
+        }
     }
 }

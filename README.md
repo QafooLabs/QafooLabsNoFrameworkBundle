@@ -8,6 +8,7 @@ following patterns/features:
 1. Returning View data from controllers
 2. Helper for Controllers as Service
 3. JMS Serializer as Templating Engine
+4. Convert Exceptions from Domain/Library Types to Framework Types
 
 ## Returning View data from controllers
 
@@ -88,3 +89,17 @@ of the Symfony base controller plus some extras.
 
 When returning an array or view model from your controller, JMS Serializer
 can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
+
+## Convert Exceptions
+
+Usually the libraries you are using or your own code throw exceptions that can be turned
+into HTTP errors other than the 500 server error. To prevent having to do this in the controller
+over and over again you can configure to convert those exceptions in a listener:
+
+    qafoo_labs_framework_extra:
+        convert_exceptions:
+            Doctrine\ORM\EntityNotFoundException: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+
+If you don't define conversions the listener is not registered. If an exception is converted
+the original exception will specifically logged before conversion. That means when an exception
+occurs it will be logged twice.

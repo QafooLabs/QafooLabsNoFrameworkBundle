@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\EventListener\ViewListener;
-use QafooLabs\Views\TemplateView;
+use QafooLabs\MVC\TemplateView;
 
 class ViewListenerTest extends \PHPUnit_Framework_TestCase
 {

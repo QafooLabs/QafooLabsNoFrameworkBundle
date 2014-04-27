@@ -2,7 +2,7 @@
 
 namespace QafooLabs\Bundle\FrameworkExtraBundle\EventListener;
 
-use QafooLabs\Views\RedirectRouteResponse;
+use QafooLabs\MVC\RedirectRouteResponse;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

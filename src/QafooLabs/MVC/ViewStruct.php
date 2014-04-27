@@ -1,6 +1,6 @@
 <?php
 
-namespace QafooLabs\Views;
+namespace QafooLabs\MVC;
 
 /**
  * View Model Base class.

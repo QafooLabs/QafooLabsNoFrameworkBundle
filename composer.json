@@ -18,7 +18,7 @@
     "autoload": {
         "psr-0": {
             "QafooLabs\\Bundle\\FrameworkExtraBundle\\": "src/",
-            "QafooLabs\\Views\\": "src/"
+            "QafooLabs\\MVC\\": "src/"
         }
     }
 }

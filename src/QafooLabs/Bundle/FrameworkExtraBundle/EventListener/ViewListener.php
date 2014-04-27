@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateGuesser;
-use QafooLabs\Views\TemplateView;
+use QafooLabs\MVC\TemplateView;
 
 /**
  * Converts ViewStruct and arrays from Controllers into Response objects.

@@ -1,6 +1,6 @@
 <?php
 
-namespace QafooLabs\Views;
+namespace QafooLabs\MVC;
 
 /**
  * Wraps a view that is rendering a template with all its data.

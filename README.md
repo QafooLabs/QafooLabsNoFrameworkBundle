@@ -1,14 +1,18 @@
 # QafooLabs FrameworkExtraBundle
 
-**Note** This bundle is experimental. Use at own risk.
+**Note** This bundle is in development at the moment. Use at own risk, API can change.
 
 ## Goals
 
 We want to achieve slim controllers that are registered as a service.  The
 number of services required in any controller should be very small (2-4).  We
 believe Context to controllers should be explicitly passed to avoid hiding it
-in services. Ultimately this should make Controllers testable with lightweight
-unit- and integration tests.
+in services.
+
+Ultimately this should make Controllers testable with lightweight unit- and
+integration tests.  Elaborate seperation of Symfony from your business logic
+should become unnecessary by building controllers that don't depend on Symfony
+from the beginning (except maybe Request/Response classes).
 
 For this reason the following features are provided by this bundle:
 
@@ -202,4 +206,3 @@ can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
 
 This works in combination with view models and you can return them from your
 controller and let JMS Serializer convert them correctly.
-

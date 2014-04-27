@@ -38,7 +38,7 @@ class ConvertExceptionListener
             return;
         }
 
-        $convertedExceptionClass = $this->findConvertedExceptionClass($exception);
+        $convertedExceptionClass = $this->findConvertToExceptionClass($exception);
 
         if (!$convertedExceptionClass) {
             return;
@@ -46,7 +46,13 @@ class ConvertExceptionListener
 
         $this->logException($exception);
 
-        $reflectionClass = new ReflectionClass($convertedExceptionClass);
+        $convertedException = $this->convertException($exception, $convertedExceptionClass);
+        $event->setException($convertedException);
+    }
+
+    private function convertException(Exception $exception, $convertToExceptionClass)
+    {
+        $reflectionClass = new ReflectionClass($convertToExceptionClass);
         $constructor = $reflectionClass->getConstructor();
         $args = array();
 
@@ -60,11 +66,10 @@ class ConvertExceptionListener
             }
         }
 
-        $convertedException = $reflectionClass->newInstanceArgs($args);
-        $event->setException($convertedException);
+        return $reflectionClass->newInstanceArgs($args);
     }
 
-    private function findConvertedExceptionClass(Exception $exception)
+    private function findConvertToExceptionClass(Exception $exception)
     {
         $exceptionClass = get_class($exception);
 

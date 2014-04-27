@@ -27,6 +27,7 @@ Roadmap:
 - FormRequest Handling
 - Explicit FrameworkContext
 - Widgets
+- Decouple Flashes (Notifications) from Session
 
 ## Returning View data from controllers
 

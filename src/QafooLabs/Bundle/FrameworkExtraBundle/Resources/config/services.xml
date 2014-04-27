@@ -60,5 +60,12 @@
 
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
         </service>
+
+        <service id="qafoo_labs_framework_extra.framework_context_param_converter"
+            class="QafooLabs\Bundle\FrameworkExtraBundle\Request\ParamConverter\FrameworkContextConverter">
+            <argument type="service" id="service_container" />
+
+            <tag name="request.param_converter" priority="false" converter="framework_context" />
+        </service>
     </services>
 </container>

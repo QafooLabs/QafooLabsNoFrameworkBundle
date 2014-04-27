@@ -6,6 +6,7 @@ use QafooLabs\Bundle\FrameworkExtraBundle\SymfonyFrameworkContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Convert FrameworkContext typehint in controllers.

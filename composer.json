@@ -8,7 +8,8 @@
         {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"}
     ],
     "require": {
-        "symfony/framework-bundle": "~2.1"
+        "symfony/framework-bundle": "~2.1",
+        "sensio/framework-extra-bundle": "@stable"
     },
     "require-dev": {
         "phake/phake": "@stable",

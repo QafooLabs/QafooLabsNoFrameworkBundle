@@ -7,10 +7,13 @@ following patterns/features:
 
 1. Returning View data from controllers
 2. Helper for Controllers as Service
-3. JMS Serializer as Templating Engine
-4. Convert Exceptions from Domain/Library Types to Framework Types
+3. Convert Exceptions from Domain/Library Types to Framework Types
+4. JMS Serializer as Templating Engine
+5. RedirectRouteResponse
 
 ## Returning View data from controllers
+
+### Returning Arrays
 
 This bundle replicates the ``@Extra\Template()`` annotation support
 from the Sensio FrameworkExtraBundle, without requiring to add the annotation
@@ -18,6 +21,56 @@ to the controller actions.
 
 You can just return arrays from controllers and the template names will
 be inferred from Controller+Action-Method names.
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+class DefaultController
+{
+    public function helloAction($name = 'Fabien')
+    {
+        return array('name' => $name);
+    }
+}
+```
+
+### Returning TemplateView
+
+Two use-cases sometimes occur where returning an array from the controller is not flexible enough:
+
+1. Rendering a template with a different action name.
+2. Adding headers to the Response object
+
+For this case you can change the previous example to return a ``TemplateView`` instance:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateView;
+
+class DefaultController
+{
+    public function helloAction($name = 'Fabien')
+    {
+        return new TemplateView(
+            array('name' => $name),
+            'hallo', // AcmeDemoBundle:Default:hallo.html.twig instead of hello.html.twig
+            201,
+            array('X-Foo' => 'Bar')
+        );
+    }
+}
+```
+
+**Note:** Contrary to the ``render()`` method on the default Symfony base controller
+here the view parameters and the template name are exchanged. This is because
+everything except the view parameters are optional.
+
+### Returning ViewModels
 
 Usually controllers quickly gather view related logic that is not properly
 extracted into a Twig extension, because of the insignficance of these data
@@ -85,11 +138,6 @@ key-value pairs of properties that exist on the view model class.
 We added a ``controller_utils`` service that offers the functionality
 of the Symfony base controller plus some extras.
 
-## JMS Serializer as Templating Engine
-
-When returning an array or view model from your controller, JMS Serializer
-can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
-
 ## Convert Exceptions
 
 Usually the libraries you are using or your own code throw exceptions that can be turned
@@ -103,3 +151,11 @@ over and over again you can configure to convert those exceptions in a listener:
 If you don't define conversions the listener is not registered. If an exception is converted
 the original exception will specifically logged before conversion. That means when an exception
 occurs it will be logged twice.
+
+## JMS Serializer as Templating Engine
+
+When returning an array or view model from your controller, JMS Serializer
+can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
+
+This works in combination with view models and you can return them from your
+controller and let JMS Serializer convert them correctly.

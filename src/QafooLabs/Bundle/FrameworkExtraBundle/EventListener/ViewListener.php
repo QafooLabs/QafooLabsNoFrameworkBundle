@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateGuesser;
+use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateView;
 
 /**
  * Converts ViewStruct and arrays from Controllers into Response objects.
@@ -56,29 +57,27 @@ class ViewListener
         }
 
         $controller = $request->attributes->get('_controller');
-        $viewParams = $event->getControllerResult();
+        $templateView = $event->getControllerResult();
 
-        if (is_object($viewParams) && !($viewParams instanceof Response)) {
-            $viewParams = array('view' => $viewParams);
+        if (!$controller || $templateView instanceof Response) {
+            return;
         }
 
-        if (is_array($viewParams)) {
-            if (!isset($viewParams['view'])) {
-                $viewParams['view'] = $viewParams;
-            }
-
-            $event->setResponse(
-                $this->makeResponseFor($controller, $viewParams, $request->getRequestFormat())
-            );
+        if ( ! ($templateView instanceof TemplateView)) {
+            $templateView = new TemplateView($templateView);
         }
+
+        $event->setResponse(
+            $this->makeResponseFor($controller, $templateView, $request->getRequestFormat())
+        );
     }
 
-    private function makeResponseFor($controller, array $viewParams, $requestFormat)
+    private function makeResponseFor($controller, $templateView, $requestFormat)
     {
         $viewName = $this->guesser->guessControllerTemplateName($controller, $requestFormat, $this->engine);
 
         $response = new Response();
-        $response->setContent($this->templating->render($viewName, $viewParams));
+        $response->setContent($this->templating->render($viewName, $templateView->getViewParams()));
 
         return $response;
     }

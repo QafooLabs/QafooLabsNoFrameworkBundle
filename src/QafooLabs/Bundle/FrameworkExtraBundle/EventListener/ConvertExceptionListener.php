@@ -4,6 +4,7 @@ namespace QafooLabs\Bundle\FrameworkExtraBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Psr\Log\LoggerInterface;
 
 use Exception;
@@ -52,6 +53,10 @@ class ConvertExceptionListener
 
     private function convertException(Exception $exception, $convertToExceptionClass)
     {
+        if (is_numeric($convertToExceptionClass)) {
+            return new HttpException($convertToExceptionClass, null, $exception);
+        }
+
         $reflectionClass = new ReflectionClass($convertToExceptionClass);
         $constructor = $reflectionClass->getConstructor();
         $args = array();

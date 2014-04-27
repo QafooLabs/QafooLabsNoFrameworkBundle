@@ -56,4 +56,30 @@ class ConvertExceptionListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\NotFoundHttpException', $event->getException());
     }
+
+    /**
+     * @test
+     */
+    public function it_converts_numbers_to_http_status_code_exception()
+    {
+        $logger = \Phake::mock('Psr\Log\LoggerInterface');
+        $listener = new ConvertExceptionListener(
+            $logger,
+            array(
+                'OutOfBoundsException' => 405
+            )
+        );
+        $listener->onKernelException(
+            $event = new GetResponseForExceptionEvent(
+                \Phake::mock('Symfony\Component\HttpKernel\KernelInterface'),
+                \Phake::mock('Symfony\Component\HttpFoundation\Request'),
+                0,
+                $original = new OutOfBoundsException()
+            )
+        );
+
+        $this->assertInstanceOf('Symfony\Component\HttpKernel\Exception\HttpException', $event->getException());
+        $this->assertEquals(405, $event->getException()->getStatusCode());
+        $this->assertSame($original, $event->getException()->getPrevious());
+    }
 }

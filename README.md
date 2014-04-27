@@ -171,10 +171,16 @@ over and over again you can configure to convert those exceptions in a listener:
     qafoo_labs_framework_extra:
         convert_exceptions:
             Doctrine\ORM\EntityNotFoundException: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+            Doctrine\ORM\ORMException: 500
 
-If you don't define conversions the listener is not registered. If an exception is converted
-the original exception will specifically logged before conversion. That means when an exception
-occurs it will be logged twice.
+Notable facts about the conversion:
+
+- Both Target Exception classes or just a HTTP StatusCode can be specified
+- Subclasses are checked for as well.
+- If you don't define conversions the listener is not registered.
+- If an exception is converted the original exception will specifically logged
+  before conversion. That means when an exception occurs it will be logged
+  twice.
 
 ## JMS Serializer as Templating Engine
 

@@ -3,7 +3,7 @@
 namespace QafooLabs\Bundle\FrameworkExtraBundle\Tests\EventListener;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\EventListener\RedirectListener;
-use QafooLabs\Bundle\FrameworkExtraBundle\View\RedirectRouteResponse;
+use QafooLabs\Views\RedirectRouteResponse;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;

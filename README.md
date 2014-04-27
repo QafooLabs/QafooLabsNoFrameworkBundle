@@ -5,11 +5,11 @@
 Symfony2 Bundle that improves Framework integration when working with the
 following patterns/features:
 
-1. Returning View data from controllers
-2. Helper for Controllers as Service
-3. Convert Exceptions from Domain/Library Types to Framework Types
-4. JMS Serializer as Templating Engine
-5. RedirectRouteResponse
+- Returning View data from controllers
+- Returning RedirectRouteResponse
+- Helper for Controllers as Service
+- Convert Exceptions from Domain/Library Types to Framework Types
+- JMS Serializer as Templating Engine
 
 ## Returning View data from controllers
 
@@ -50,7 +50,7 @@ For this case you can change the previous example to return a ``TemplateView`` i
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Bundle\FrameworkExtraBundle\View\TemplateView;
+use QafooLabs\Views\TemplateView;
 
 class DefaultController
 {
@@ -129,9 +129,33 @@ where the view model is available as the ``view`` twig variable:
 Hello {{ view.name }} or {{ view.reversedName }}!
 ```
 
-You can optionally extend from ``QafooLabs\Bundle\FrameworkExtraBundle\View\ViewStruct``.
+You can optionally extend from ``QafooLabs\Views\ViewStruct``.
 Every ``ViewStruct`` implementation has a constructor accepting and setting
 key-value pairs of properties that exist on the view model class.
+
+## RedirectRouteResponse
+
+Redirecting in Symfony is much more likely to happen internally to a given
+route. The ``QafooLabs\Views\RedirectRouteResponse`` can be returned from
+your controller and a listener will turn it into a proper Symfony ``RedirectResponse``:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\Views\RedirectRouteResponse;
+
+class DefaultController
+{
+    public function redirectAction()
+    {
+        return new RedirectRouteResponse('hello', array(
+            'name' => 'Fabien'
+        ));
+    }
+}
+```
 
 ## Helper for Controllers as Service
 

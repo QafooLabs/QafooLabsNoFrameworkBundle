@@ -16,6 +16,9 @@
         "jms/serializer": "@stable"
     },
     "autoload": {
-        "psr-0": {"QafooLabs\\Bundle\\FrameworkExtraBundle\\": "src/"}
+        "psr-0": {
+            "QafooLabs\\Bundle\\FrameworkExtraBundle\\": "src/",
+            "QafooLabs\\Views\\": "src/"
+        }
     }
 }

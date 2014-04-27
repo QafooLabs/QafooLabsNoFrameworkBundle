@@ -1,6 +1,6 @@
 <?php
 
-namespace QafooLabs\Bundle\FrameworkExtraBundle\View;
+namespace QafooLabs\Views;
 
 class RedirectRouteResponse
 {

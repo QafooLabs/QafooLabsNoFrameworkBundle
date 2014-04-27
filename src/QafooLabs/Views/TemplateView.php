@@ -1,6 +1,6 @@
 <?php
 
-namespace QafooLabs\Bundle\FrameworkExtraBundle\View;
+namespace QafooLabs\Views;
 
 /**
  * Wraps a view that is rendering a template with all its data.

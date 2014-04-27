@@ -63,6 +63,11 @@ class SymfonyFrameworkContext implements FrameworkContext
         return $user;
     }
 
+    public function hasToken()
+    {
+        return $this->securityContext->getToken() !== null;
+    }
+
     /**
      * Get the Security Token
      *

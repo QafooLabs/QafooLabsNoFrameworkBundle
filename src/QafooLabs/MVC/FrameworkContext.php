@@ -34,6 +34,11 @@ interface FrameworkContext
     public function getCurrentUser();
 
     /**
+     * @return bool
+     */
+    public function hasToken();
+
+    /**
      * Get the Security Token
      *
      * Throws UnauthenticatedUserException when no valid token exists.

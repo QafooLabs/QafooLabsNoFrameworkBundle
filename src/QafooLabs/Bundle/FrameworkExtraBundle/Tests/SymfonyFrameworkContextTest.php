@@ -17,6 +17,7 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
 
         \Phake::when($security)->getToken()->thenReturn($token);
 
+        $this->assertTrue($context->hasToken());
         $this->assertSame($token, $context->getToken());
     }
 
@@ -32,6 +33,18 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('QafooLabs\MVC\Exception\UnauthenticatedUserException');
 
         $context->getToken();
+    }
+
+    /**
+     * @test
+     */
+    public function it_allows_check_has_token()
+    {
+        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
+        $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $context = new SymfonyFrameworkContext($security, 'dev', true);
+
+        $this->assertFalse($context->hasToken());
     }
 
     /**

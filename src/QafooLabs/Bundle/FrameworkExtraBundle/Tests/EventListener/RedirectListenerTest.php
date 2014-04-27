@@ -3,7 +3,7 @@
 namespace QafooLabs\Bundle\FrameworkExtraBundle\Tests\EventListener;
 
 use QafooLabs\Bundle\FrameworkExtraBundle\EventListener\RedirectListener;
-use QafooLabs\Bundle\FrameworkExtraBundle\View\GotoPage;
+use QafooLabs\Bundle\FrameworkExtraBundle\View\RedirectRouteResponse;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class RedirectListenerTest extends \PHPUnit_Framework_TestCase
     {
         \Phake::when($this->router)->generate('foo', array('id' => 10))->thenReturn('/foo?id=10');
 
-        $event = $this->createEventWith(new GotoPage('foo', array('id' => 10)));
+        $event = $this->createEventWith(new RedirectRouteResponse('foo', array('id' => 10)));
         $this->listener->onKernelView($event);
 
 

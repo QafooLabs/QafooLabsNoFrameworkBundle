@@ -2,7 +2,7 @@
 
 namespace QafooLabs\Bundle\FrameworkExtraBundle\EventListener;
 
-use QafooLabs\Bundle\FrameworkExtraBundle\View\GotoPage;
+use QafooLabs\Bundle\FrameworkExtraBundle\View\RedirectRouteResponse;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,7 +27,7 @@ class RedirectListener
     {
         $redirect = $event->getControllerResult();
 
-        if ( ! ($redirect instanceof GotoPage)) {
+        if ( ! ($redirect instanceof RedirectRouteResponse)) {
             return;
         }
 
@@ -36,7 +36,9 @@ class RedirectListener
                 $this->router->generate(
                     $redirect->getRouteName(),
                     $redirect->getParameters()
-                )
+                ),
+                $redirect->getStatusCode(),
+                $redirect->getHeaders()
             )
         );
     }

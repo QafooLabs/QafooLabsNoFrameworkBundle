@@ -72,14 +72,20 @@ class ViewListener
         );
     }
 
-    private function makeResponseFor($controller, $templateView, $requestFormat)
+    private function makeResponseFor($controller, TemplateView $templateView, $requestFormat)
     {
-        $viewName = $this->guesser->guessControllerTemplateName($controller, $requestFormat, $this->engine);
+        $viewName = $this->guesser->guessControllerTemplateName(
+            $controller,
+            $templateView->getActionTemplateName(),
+            $requestFormat,
+            $this->engine
+        );
 
-        $response = new Response();
-        $response->setContent($this->templating->render($viewName, $templateView->getViewParams()));
-
-        return $response;
+        return new Response(
+            $this->templating->render($viewName, $templateView->getViewParams()),
+            $templateView->getStatusCode(),
+            $templateView->getHeaders()
+        );
     }
 }
 

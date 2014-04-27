@@ -28,20 +28,23 @@ class SymfonyConventionsTemplateGuesser implements TemplateGuesser
     /**
      * {@inheritDoc}
      */
-    public function guessControllerTemplateName($controller, $format, $engine)
+    public function guessControllerTemplateName($controller, $actionName, $format, $engine)
     {
-        list($bundleName, $controllerName, $actionName) = $this->parseControllerCommand($controller);
+        list($bundleName, $controllerName, $actionName) = $this->parseControllerCommand($controller, $actionName);
 
         return $this->createTemplateReference($bundleName, $controllerName, $actionName, $format, $engine);
     }
 
-    private function parseControllerCommand($controller)
+    private function parseControllerCommand($controller, $actionName = null)
     {
         list($className, $method) = $this->extractControllerCallable($controller);
 
         $bundleName     = $this->bundleLocation->locationFor($className);
         $controllerName = $this->extractControllerName($className);
-        $actionName     = $this->extractActionName($method);
+
+        if ($actionName === null) {
+            $actionName = $this->extractActionName($method);
+        }
 
         return array($bundleName, $controllerName, $actionName);
     }

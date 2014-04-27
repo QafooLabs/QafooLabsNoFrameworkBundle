@@ -8,15 +8,14 @@ namespace QafooLabs\Bundle\FrameworkExtraBundle\View;
 class TemplateView
 {
     private $viewParams;
-    private $template;
+    private $actionTemplateName;
     private $statusCode;
     private $headers;
 
-    public function __construct($viewParams, $template = null, $statusCode = 200, array $headers = array())
+    public function __construct($viewParams, $actionTemplateName = null, $statusCode = 200, array $headers = array())
     {
-
         $this->viewParams = $viewParams;
-        $this->template = $template;
+        $this->actionTemplateName = $actionTemplateName;
         $this->statusCode = $statusCode;
         $this->headers = $headers;
     }
@@ -42,9 +41,9 @@ class TemplateView
     /**
      * @return string
      */
-    public function getTemplate()
+    public function getActionTemplateName()
     {
-        return $this->template;
+        return $this->actionTemplateName;
     }
 
     /**

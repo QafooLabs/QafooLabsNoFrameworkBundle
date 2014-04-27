@@ -28,7 +28,7 @@ class SymfonyConventionsTemplateGuesserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'Bundle:Foo:bar.html.twig',
-            $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', 'html', 'twig')
+            $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', null, 'html', 'twig')
         );
     }
 
@@ -42,7 +42,21 @@ class SymfonyConventionsTemplateGuesserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'Bundle:Foo:bar.html.twig',
-            $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', 'html', 'twig')
+            $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', null, 'html', 'twig')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_uses_provided_action_name_as_overwrite()
+    {
+        \Phake::when($this->parser)->parse('foo:barAction')->thenReturn('Controller\\FooController::barAction');
+        \Phake::when($this->bundleLocation)->locationFor('Controller\\FooController')->thenReturn('Bundle');
+
+        $this->assertEquals(
+            'Bundle:Foo:baz.html.twig',
+            $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', 'baz', 'html', 'twig')
         );
     }
 }

@@ -189,3 +189,4 @@ can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
 
 This works in combination with view models and you can return them from your
 controller and let JMS Serializer convert them correctly.
+

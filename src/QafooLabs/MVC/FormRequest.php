@@ -10,18 +10,11 @@ interface FormRequest
      * @param string|Typeinterface $formType
      * @param array|object $bindData
      * @param array $options
-     * @throws Exception\FormAlreadyBoundException when a form was already bound on this request before.
+     * @throws Exception\FormAlreadyHandledException when a form was already bound on this request before.
      *
      * @return bool
      */
     public function handle($formType, $bindData = null, array $options = array());
-
-    /**
-     * Bind request to form. Same as handle except it already returns true when form is bound.
-     *
-     * @return bool
-     */
-    public function bind($formType, $bindData = null, array $options = array());
 
     /**
      * Use this to retrieve the validated data from the form even when you attached `$bindData`.

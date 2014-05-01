@@ -67,5 +67,12 @@
 
             <tag name="request.param_converter" priority="false" converter="framework_context" />
         </service>
+
+        <service id="qafoo_labs_framework_extra.form_request_param_converter"
+            class="QafooLabs\Bundle\FrameworkExtraBundle\Request\ParamConverter\FormRequestConverter">
+            <argument type="service" id="service_container" />
+
+            <tag name="request.param_converter" priority="false" converter="form_request" />
+        </service>
     </services>
 </container>

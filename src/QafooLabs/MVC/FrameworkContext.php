@@ -39,6 +39,11 @@ interface FrameworkContext
     public function hasToken();
 
     /**
+     * @return bool
+     */
+    public function hasNonAnonymousToken();
+
+    /**
      * Get the Security Token
      *
      * Throws UnauthenticatedUserException when no valid token exists.

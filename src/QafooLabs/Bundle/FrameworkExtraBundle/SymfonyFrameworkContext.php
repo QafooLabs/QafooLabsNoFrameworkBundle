@@ -4,7 +4,9 @@ namespace QafooLabs\Bundle\FrameworkExtraBundle;
 
 use QafooLabs\MVC\FrameworkContext;
 use QafooLabs\MVC\Exception;
+
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 class SymfonyFrameworkContext implements FrameworkContext
 {
@@ -63,9 +65,20 @@ class SymfonyFrameworkContext implements FrameworkContext
         return $user;
     }
 
+    /**
+     * @return bool
+     */
     public function hasToken()
     {
         return $this->securityContext->getToken() !== null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNonAnonymousToken()
+    {
+        return $this->hasToken() && ! ($this->getToken() instanceof AnonymousToken);
     }
 
     /**

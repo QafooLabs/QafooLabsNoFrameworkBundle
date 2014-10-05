@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="qafoo_labs_noframework.controller_utils.class">QafooLabs\Bundle\NoFrameworkBundle\Controller\ControllerUtils</parameter>
+        <parameter key="qafoo_labs_noframework.view_listener.class">QafooLabs\Bundle\NoFrameworkBundle\EventListener\ViewListener</parameter>
+        <parameter key="qafoo_labs_noframework.redirect_listener.class">QafooLabs\Bundle\NoFrameworkBundle\EventListener\RedirectListener</parameter>
+        <parameter key="qafoo_labs_noframework.template_guesser.class">QafooLabs\Bundle\NoFrameworkBundle\View\SymfonyConventionsTemplateGuesser</parameter>
+        <parameter key="qafoo_labs_noframework.serializer_view_engine.class">QafooLabs\Bundle\NoFrameworkBundle\Templating\JmsSerializerEngine</parameter>
+        <parameter key="qafoo_labs_noframework.bundle_location.class">QafooLabs\Bundle\NoFrameworkBundle\View\BundleLocation</parameter>
+        <parameter key="qafoo_labs_noframework.controller.name_parser.class">QafooLabs\Bundle\NoFrameworkBundle\Controller\QafooControllerNameParser</parameter>
+        <parameter key="qafoo_labs_noframework.convert_exception_listener.class">QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="qafoo_labs_noframework.controller.name_parser" class="%qafoo_labs_noframework.controller.name_parser.class%">
+            <argument type="service" id="controller_name_converter" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="qafoo_labs_noframework.controller_utils" class="%qafoo_labs_noframework.controller_utils.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="qafoo_labs_noframework.view_listener" class="%qafoo_labs_noframework.view_listener.class%">
+            <argument type="service" id="templating" />
+            <argument type="service" id="qafoo_labs_noframework.template_guesser" />
+            <argument>twig</argument>
+
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="10" />
+        </service>
+
+        <service id="qafoo_labs_noframework.template_guesser" class="%qafoo_labs_noframework.template_guesser.class%">
+            <argument type="service" id="qafoo_labs_noframework.bundle_location" />
+            <argument type="service" id="qafoo_labs_noframework.controller.name_parser" />
+        </service>
+
+        <service id="qafoo_labs_noframework.bundle_location" class="%qafoo_labs_noframework.bundle_location.class%">
+            <argument type="service" id="kernel" />
+        </service>
+
+        <service id="templating.engine.jms" class="%qafoo_labs_noframework.serializer_view_engine.class%">
+            <argument type="service" id="serializer" on-invalid="null" />
+
+            <tag name="templating.engine" />
+        </service>
+
+        <service id="qafoo_labs_noframework.redirect_listener" class="%qafoo_labs_noframework.redirect_listener.class%">
+            <argument type="service" id="router" />
+
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="20" />
+        </service>
+
+        <service id="qafoo_labs_noframework.convert_exception_listener" class="%qafoo_labs_noframework.convert_exception_listener.class%">
+            <argument type="service" id="logger" />
+            <argument>%qafoo_labs_noframework.convert_exceptions_map%</argument>
+
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
+        </service>
+
+        <service id="qafoo_labs_noframework.framework_context_param_converter"
+            class="QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FrameworkContextConverter">
+            <argument type="service" id="service_container" />
+
+            <tag name="request.param_converter" priority="false" converter="framework_context" />
+        </service>
+
+        <service id="qafoo_labs_noframework.form_request_param_converter"
+            class="QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FormRequestConverter">
+            <argument type="service" id="form.factory" />
+
+            <tag name="request.param_converter" priority="false" converter="form_request" />
+        </service>
+    </services>
+</container>

@@ -242,6 +242,50 @@ In unit tests where you want to test the controller you can use the `MockFramewo
 instead. It doesnt work with complex `isGranted()` checks or the token, but if you only
 use the user object it allows very simple test setup.
 
+## Working with FormRequest
+
+Handling forms in Symfony typically leads to complicated, untestable controller actions
+that are very tightly coupled to various Symfony services. To avoid having to deal with
+`form.factory` inside a controller we introduced a specialized request object
+that hides all this:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\MVC\FormRequest;
+
+class ProductController
+{
+    private $repository;
+
+    public function __construct(ProductRepository $repository)
+    {
+        $this->repository;
+    }
+
+    public function editAction(FormRequest $formRequest, $id)
+    {
+        $product = $this->repository->find($id);
+
+        if (!$formRequest->handle(new ProductEditType(), $product)) {
+            return array('form' => $formRequest->createFormView(), 'entity' => $product);
+        }
+
+        $product = $formRequest->getValidData();
+
+        $this->repository->save($product);
+
+        return new RedirectRouteResponse('Product.show', array('id' => $id));
+    }
+}
+```
+
+In tests you can use `new QafooLabs\MVC\Form\InvalidFormRequest()` and `new
+QafooLabs\MVC\Form\ValidFormRequest($validData)` to work with forms in tests
+for controllers.
+
 ## Helper for Controllers as Service
 
 We added a ``controller_utils`` service that offers the functionality

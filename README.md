@@ -238,6 +238,10 @@ class DefaultController
 For Symfony a concrete implementation `SymfonyFrameworkContext` is used for the
 interface that uses `security.context` internally.
 
+In unit tests where you want to test the controller you can use the `MockFrameworkContext`
+instead. It doesnt work with complex `isGranted()` checks or the token, but if you only
+use the user object it allows very simple test setup.
+
 ## Helper for Controllers as Service
 
 We added a ``controller_utils`` service that offers the functionality

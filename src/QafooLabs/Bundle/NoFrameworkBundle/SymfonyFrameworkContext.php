@@ -11,14 +11,10 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 class SymfonyFrameworkContext implements FrameworkContext
 {
     private $securityContext;
-    private $environment;
-    private $debug;
 
-    public function __construct(SecurityContextInterface $securityContext, $environment, $debug)
+    public function __construct(SecurityContextInterface $securityContext)
     {
         $this->securityContext = $securityContext;
-        $this->environment = $environment;
-        $this->debug = $debug;
     }
 
     /**
@@ -106,21 +102,5 @@ class SymfonyFrameworkContext implements FrameworkContext
     public function isGranted($attributes, $object = null)
     {
         return $this->securityContext->isGranted($attributes, $object);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEnvironment()
-    {
-        return $this->environment;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDebug()
-    {
-        return $this->debug;
     }
 }

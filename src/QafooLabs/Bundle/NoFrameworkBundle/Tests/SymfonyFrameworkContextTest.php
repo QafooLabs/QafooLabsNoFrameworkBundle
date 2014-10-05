@@ -46,26 +46,4 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($context->hasToken());
     }
-
-    /**
-     * @test
-     */
-    public function it_retrieves_environment()
-    {
-        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
-        $context = new SymfonyFrameworkContext($security, 'dev', true);
-
-        $this->assertEquals('dev', $context->getEnvironment());
-    }
-
-    /**
-     * @test
-     */
-    public function it_retrieves_debug()
-    {
-        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
-        $context = new SymfonyFrameworkContext($security, 'dev', true);
-
-        $this->assertTrue($context->isDebug());
-    }
 }

@@ -1,6 +1,4 @@
-# QafooLabs FrameworkExtraBundle
-
-**Note** This bundle is in development at the moment. Use at own risk, API can change.
+# QafooLabs NoFrameworkBundle
 
 ## Goals
 
@@ -28,6 +26,28 @@ Roadmap:
 - Explicit FrameworkContext
 - Widgets
 - Decouple Flashes (Notifications) from Session
+
+## Requirements:
+
+SensioFrameworkExtraBundle at least version 3.0
+
+## Installation
+
+1. Add bundle to your application kernel:
+
+```php
+$bundles = array(
+    // ...
+    new QafooLabs\Bundle\NoFrameworkBundle\QafooLabsNoFrameworkBundle(),
+);
+```
+
+2. Disable view listener in SensioFrameworkExtraBundle
+
+    # app/config/config.yml
+    sensio_framework_extra:
+        view:
+            annotations: false
 
 ## Returning View data from controllers
 
@@ -175,10 +195,56 @@ class DefaultController
 }
 ```
 
+## Inject FrameworkContext into actions
+
+In Symfony access to security related information is available through the
+`security.context` service.  This is bad from a design perspective, because it
+introduces a stateful service whenever access to security related information
+is needed.
+
+To avoid access to the security state from a service, it needs to be passed as
+arguments, starting with the controller action.
+
+That is what the `FrameworkContext` class is for. Just add a typehint for it to
+any action and NoFrameworkBundle will pass this object into your action. From
+it you have access to various security related methods:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\MVC\FrameworkContext;
+
+class DefaultController
+{
+    public function redirectAction(FrameworkContext $context)
+    {
+        if ($context->hasToken()) {
+            $user = $context->getCurrentUser();
+        } else if ($context->hasAnonymousToken()) {
+            // do anon stuff
+        }
+
+        if ($context->isGranted('ROLE_ADMIN')) {
+            // do admin stuff
+            echo $context->getCurrentUserId();
+            echo $context->getCurrentUsername();
+        }
+    }
+}
+```
+
+For Symfony a concrete implementation `SymfonyFrameworkContext` is used for the
+interface that uses `security.context` internally.
+
 ## Helper for Controllers as Service
 
 We added a ``controller_utils`` service that offers the functionality
 of the Symfony base controller plus some extras.
+
+See my blog post [Extending Symfony2: Controller Utils](http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html)
+for reasoning.
 
 ## Convert Exceptions
 

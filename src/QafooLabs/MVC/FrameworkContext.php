@@ -57,14 +57,4 @@ interface FrameworkContext
      * @return bool
      */
     public function isGranted($attributes, $object = null);
-
-    /**
-     * @return string
-     */
-    public function getEnvironment();
-
-    /**
-     * @return bool
-     */
-    public function isDebug();
 }

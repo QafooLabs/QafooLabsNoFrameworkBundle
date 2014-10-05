@@ -36,9 +36,7 @@ class FrameworkContextConverter implements ParamConverterInterface
         $request->attributes->set(
             $configuration->getName(),
             new SymfonyFrameworkContext(
-                $this->container->get('security.context'),
-                $this->container->getParameter('kernel.environment'),
-                $this->container->getParameter('kernel.debug')
+                $this->container->get('security.context')
             )
         );
     }

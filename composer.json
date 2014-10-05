@@ -9,7 +9,7 @@
     ],
     "require": {
         "symfony/framework-bundle": "~2.1",
-        "sensio/framework-extra-bundle": "@stable"
+        "sensio/framework-extra-bundle": "~3.0"
     },
     "require-dev": {
         "phake/phake": "@stable",

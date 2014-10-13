@@ -1,5 +1,7 @@
 # QafooLabs NoFrameworkBundle
 
+Disclaimer: This is not an official Qafoo product. We don't provide active support on this repository.
+
 ## Goals
 
 We want to achieve slim controllers that are registered as a service.  The

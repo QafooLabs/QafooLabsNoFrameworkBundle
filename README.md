@@ -39,10 +39,12 @@ $bundles = array(
 
 2. Disable view listener in SensioFrameworkExtraBundle
 
-    # app/config/config.yml
-    sensio_framework_extra:
-        view:
-            annotations: false
+```yml
+# app/config/config.yml
+sensio_framework_extra:
+    view:
+        annotations: false
+```
 
 ## Returning View data from controllers
 

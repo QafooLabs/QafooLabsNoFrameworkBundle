@@ -1,11 +1,12 @@
 {
-    "name": "qafoolabs/framework-extra-bundle",
+    "name": "qafoolabs/no-framework-bundle",
     "type": "symfony-bundle",
     "keywords": ["symfony", "bundle"],
     "description": "Various improvements for Symfony applications",
     "license": "MIT",
     "authors": [
-        {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"}
+        {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"},
+        {"name": "Manuel Pichler", "email": "manuel@qafoo,com"}
     ],
     "require": {
         "symfony/framework-bundle": "~2.1",

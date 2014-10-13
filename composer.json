@@ -6,7 +6,7 @@
     "license": "MIT",
     "authors": [
         {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"},
-        {"name": "Manuel Pichler", "email": "manuel@qafoo,com"}
+        {"name": "Manuel Pichler", "email": "manuel@qafoo.com"}
     ],
     "require": {
         "symfony/framework-bundle": "~2.1",

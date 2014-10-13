@@ -20,13 +20,6 @@ For this reason the following features are provided by this bundle:
 - Convert Exceptions from Domain/Library Types to Framework Types
 - JMS Serializer as Templating Engine
 
-Roadmap:
-
-- FormRequest Handling
-- Explicit FrameworkContext
-- Widgets
-- Decouple Flashes (Notifications) from Session
-
 ## Requirements:
 
 SensioFrameworkExtraBundle at least version 3.0
@@ -285,6 +278,25 @@ class ProductController
 In tests you can use `new QafooLabs\MVC\Form\InvalidFormRequest()` and `new
 QafooLabs\MVC\Form\ValidFormRequest($validData)` to work with forms in tests
 for controllers.
+
+## ParamConverter for Session
+
+You can pass the session as an argument to a controller:
+
+    public function indexAction(Session $session)
+    {
+    }
+
+## ParamConverter for Flash Messages
+
+You can pass a flash object as an argument to a controller:
+
+    use QafooLabs\MVC\Flash;
+
+    public function indexAction(Flash $flash)
+    {
+        $flash->add('notice', 'Hello World!');
+    }
 
 ## Helper for Controllers as Service
 

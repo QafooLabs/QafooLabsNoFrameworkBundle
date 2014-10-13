@@ -13,6 +13,8 @@
         <parameter key="qafoo_labs_noframework.bundle_location.class">QafooLabs\Bundle\NoFrameworkBundle\View\BundleLocation</parameter>
         <parameter key="qafoo_labs_noframework.controller.name_parser.class">QafooLabs\Bundle\NoFrameworkBundle\Controller\QafooControllerNameParser</parameter>
         <parameter key="qafoo_labs_noframework.convert_exception_listener.class">QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener</parameter>
+        <parameter key="qafoo_labs_noframework.session_converter.class">QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\SessionConverter</parameter>
+        <parameter key="qafoo_labs_noframework.flash_converter.class">QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FlashConverter</parameter>
     </parameters>
 
     <services>
@@ -73,6 +75,14 @@
             <argument type="service" id="form.factory" />
 
             <tag name="request.param_converter" priority="false" converter="form_request" />
+        </service>
+
+        <service id="qafoo_labs_noframework.session_converter" class="%qafoo_labs_noframework.session_converter.class%">
+            <tag name="request.param_converter" priority="false" converter="session" />
+        </service>
+
+        <service id="qafoo_labs_noframework.flash_converter" class="%qafoo_labs_noframework.flash_converter.class%">
+            <tag name="request.param_converter" priority="false" converter="flash" />
         </service>
     </services>
 </container>

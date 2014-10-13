@@ -287,20 +287,24 @@ for controllers.
 
 You can pass the session as an argument to a controller:
 
-    public function indexAction(Session $session)
-    {
-    }
+```
+public function indexAction(Session $session)
+{
+}
+```
 
 ## ParamConverter for Flash Messages
 
 You can pass a flash object as an argument to a controller:
 
-    use QafooLabs\MVC\Flash;
+```
+use QafooLabs\MVC\Flash;
 
-    public function indexAction(Flash $flash)
-    {
-        $flash->add('notice', 'Hello World!');
-    }
+public function indexAction(Flash $flash)
+{
+    $flash->add('notice', 'Hello World!');
+}
+```
 
 ## Helper for Controllers as Service
 

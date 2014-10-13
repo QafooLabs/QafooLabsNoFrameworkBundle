@@ -1,6 +1,6 @@
 # QafooLabs NoFrameworkBundle
 
-Disclaimer: This is not an official Qafoo product. We don't provide active support on this repository.
+*Disclaimer: This is not an official Qafoo product but a prototype. We don't provide support on this repository.*
 
 ## Goals
 

@@ -2,7 +2,7 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\DependencyInjection;
 
-use QafooLabs\Bundle\NoFrameworkBundle\DependencyInjection\QafooLabsFrameworkExtraExtension;
+use QafooLabs\Bundle\NoFrameworkBundle\DependencyInjection\QafooLabsNoFrameworkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
@@ -66,7 +66,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             'kernel.root_dir'    => __DIR__.'/../../../../' // src dir
         )));
 
-        $loader = new QafooLabsFrameworkExtraExtension();
+        $loader = new QafooLabsNoFrameworkExtension();
         $container->set('templating', \Phake::mock('Symfony\Component\Templating\EngineInterface'));
         $container->set('kernel', \Phake::mock('Symfony\Component\HttpKernel\KernelInterface'));
         $container->set('controller_name_converter', \Phake::mock('Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser'));

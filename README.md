@@ -320,7 +320,7 @@ Usually the libraries you are using or your own code throw exceptions that can b
 into HTTP errors other than the 500 server error. To prevent having to do this in the controller
 over and over again you can configure to convert those exceptions in a listener:
 
-    qafoo_labs_framework_extra:
+    qafoo_labs_no_framework:
         convert_exceptions:
             Doctrine\ORM\EntityNotFoundException: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
             Doctrine\ORM\ORMException: 500

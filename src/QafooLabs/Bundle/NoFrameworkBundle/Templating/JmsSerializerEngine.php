@@ -1,6 +1,6 @@
 <?php
 /**
- * QafooLabs FrameworkExtra Bundle
+ * QafooLabs NoFramework Bundle
  *
  * LICENSE
  *

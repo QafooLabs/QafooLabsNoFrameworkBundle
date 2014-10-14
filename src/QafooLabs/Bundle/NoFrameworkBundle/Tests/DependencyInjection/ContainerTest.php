@@ -27,13 +27,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(
-            'QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FlashConverter',
-            $container->get('qafoo_labs_noframework.flash_converter')
-        );
-
-        $this->assertInstanceOf(
-            'QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\SessionConverter',
-            $container->get('qafoo_labs_noframework.session_converter')
+            'QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener',
+            $container->get('qafoo_labs_noframework.param_converter_listener')
         );
     }
 

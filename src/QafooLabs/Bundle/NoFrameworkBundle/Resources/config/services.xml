@@ -63,26 +63,10 @@
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
         </service>
 
-        <service id="qafoo_labs_noframework.framework_context_param_converter"
-            class="QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FrameworkContextConverter">
+        <service id="qafoo_labs_noframework.param_converter_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener">
             <argument type="service" id="service_container" />
 
-            <tag name="request.param_converter" priority="false" converter="framework_context" />
-        </service>
-
-        <service id="qafoo_labs_noframework.form_request_param_converter"
-            class="QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FormRequestConverter">
-            <argument type="service" id="form.factory" />
-
-            <tag name="request.param_converter" priority="false" converter="form_request" />
-        </service>
-
-        <service id="qafoo_labs_noframework.session_converter" class="%qafoo_labs_noframework.session_converter.class%">
-            <tag name="request.param_converter" priority="false" converter="session" />
-        </service>
-
-        <service id="qafoo_labs_noframework.flash_converter" class="%qafoo_labs_noframework.flash_converter.class%">
-            <tag name="request.param_converter" priority="false" converter="flash" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
     </services>
 </container>

@@ -22,13 +22,9 @@ For this reason the following features are provided by this bundle:
 - Convert Exceptions from Domain/Library Types to Framework Types
 - JMS Serializer as Templating Engine
 
-## Requirements:
-
-SensioFrameworkExtraBundle at least version 3.0
-
 ## Installation
 
-1. Add bundle to your application kernel:
+Add bundle to your application kernel:
 
 ```php
 $bundles = array(
@@ -37,7 +33,7 @@ $bundles = array(
 );
 ```
 
-2. Disable view listener in SensioFrameworkExtraBundle
+Disable view listener in SensioFrameworkExtraBundle if you are using that (not required anymore):
 
 ```yml
 # app/config/config.yml

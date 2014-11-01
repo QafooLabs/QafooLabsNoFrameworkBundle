@@ -2,9 +2,9 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests;
 
-use QafooLabs\Bundle\NoFrameworkBundle\SymfonyFrameworkContext;
+use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 
-class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
+class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
     {
         $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
         $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyFrameworkContext($security, 'dev', true);
+        $context = new SymfonyTokenContext($security, 'dev', true);
 
         \Phake::when($security)->getToken()->thenReturn($token);
 
@@ -28,7 +28,7 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
     {
         $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
         $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyFrameworkContext($security, 'dev', true);
+        $context = new SymfonyTokenContext($security, 'dev', true);
 
         $this->setExpectedException('QafooLabs\MVC\Exception\UnauthenticatedUserException');
 
@@ -42,7 +42,7 @@ class SymfonyFrameworkContextTest extends \PHPUnit_Framework_TestCase
     {
         $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
         $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyFrameworkContext($security, 'dev', true);
+        $context = new SymfonyTokenContext($security, 'dev', true);
 
         $this->assertFalse($context->hasToken());
     }

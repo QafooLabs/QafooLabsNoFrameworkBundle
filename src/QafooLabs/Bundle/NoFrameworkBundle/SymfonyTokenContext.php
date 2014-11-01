@@ -2,13 +2,13 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle;
 
-use QafooLabs\MVC\FrameworkContext;
+use QafooLabs\MVC\TokenContext;
 use QafooLabs\MVC\Exception;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
-class SymfonyFrameworkContext implements FrameworkContext
+class SymfonyTokenContext implements TokenContext
 {
     private $securityContext;
 

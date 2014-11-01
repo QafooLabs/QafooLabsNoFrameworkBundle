@@ -188,7 +188,7 @@ class DefaultController
 }
 ```
 
-## Inject FrameworkContext into actions
+## Inject TokenContext into actions
 
 In Symfony access to security related information is available through the
 `security.context` service.  This is bad from a design perspective, because it
@@ -198,7 +198,7 @@ is needed.
 To avoid access to the security state from a service, it needs to be passed as
 arguments, starting with the controller action.
 
-That is what the `FrameworkContext` class is for. Just add a typehint for it to
+That is what the `TokenContext` class is for. Just add a typehint for it to
 any action and NoFrameworkBundle will pass this object into your action. From
 it you have access to various security related methods:
 
@@ -207,11 +207,11 @@ it you have access to various security related methods:
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\MVC\FrameworkContext;
+use QafooLabs\MVC\TokenContext;
 
 class DefaultController
 {
-    public function redirectAction(FrameworkContext $context)
+    public function redirectAction(TokenContext $context)
     {
         if ($context->hasToken()) {
             $user = $context->getCurrentUser();
@@ -228,10 +228,10 @@ class DefaultController
 }
 ```
 
-For Symfony a concrete implementation `SymfonyFrameworkContext` is used for the
+For Symfony a concrete implementation `SymfonyTokenContext` is used for the
 interface that uses `security.context` internally.
 
-In unit tests where you want to test the controller you can use the `MockFrameworkContext`
+In unit tests where you want to test the controller you can use the `MockTokenContext`
 instead. It doesnt work with complex `isGranted()` checks or the token, but if you only
 use the user object it allows very simple test setup.
 

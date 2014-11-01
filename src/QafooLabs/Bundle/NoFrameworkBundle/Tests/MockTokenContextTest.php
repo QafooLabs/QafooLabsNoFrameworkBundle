@@ -2,9 +2,9 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests;
 
-use QafooLabs\Bundle\NoFrameworkBundle\MockFrameworkContext;
+use QafooLabs\Bundle\NoFrameworkBundle\MockTokenContext;
 
-class MockFrameworkContextTest extends \PHPUnit_Framework_TestCase
+class MockTokenContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -14,7 +14,7 @@ class MockFrameworkContextTest extends \PHPUnit_Framework_TestCase
         $user = \Phake::mock('Symfony\Component\Security\Core\User\UserInterface');
         \Phake::when($user)->getRoles()->thenReturn(array('ROLE_USER', 'ROLE_ADMIN'));
 
-        $context = new MockFrameworkContext($user);
+        $context = new MockTokenContext($user);
 
         $this->assertTrue($context->isGranted('ROLE_USER'));
     }

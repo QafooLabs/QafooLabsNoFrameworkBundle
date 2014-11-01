@@ -33,7 +33,7 @@ $bundles = array(
 );
 ```
 
-Disable view listener in SensioFrameworkExtraBundle if you are using that (not required anymore):
+Disable view listener in SensioFrameworkExtraBundle if you are using that (not a requirement anymore):
 
 ```yml
 # app/config/config.yml

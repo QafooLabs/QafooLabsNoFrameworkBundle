@@ -2,13 +2,13 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle;
 
-use QafooLabs\MVC\FrameworkContext;
+use QafooLabs\MVC\TokenContext;
 use QafooLabs\MVC\Exception;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class MockFrameworkContext implements FrameworkContext
+class MockTokenContext implements TokenContext
 {
     private $user;
     private $token;
@@ -72,7 +72,7 @@ class MockFrameworkContext implements FrameworkContext
 
     public function getToken()
     {
-        throw new \BadMethodCallException("getToken() not supported in MockFrameworkContext");
+        throw new \BadMethodCallException("getToken() not supported in MockTokenContext");
     }
 
     public function isGranted($attributes, $object = null)

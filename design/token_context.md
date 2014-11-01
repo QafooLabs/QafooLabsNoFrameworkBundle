@@ -1,4 +1,4 @@
-# Framework Context
+# Token Context
 
 Context should be made explicit by using a *ContextObject* passed as parameter
 into methods. Symfony however passes context around through services such as
@@ -6,7 +6,7 @@ into methods. Symfony however passes context around through services such as
 very hard to test.  Inside Twig however this context object exists with the
 magic `app` variable.
 
-We propose to introduce a `FrameworkContext` object that can be injected
+We propose to introduce a `TokenContext` object that can be injected
 into controllers using the ParamConverter mechanism:
 
 ```php
@@ -16,7 +16,7 @@ namespace Acme\DemoBundle\Controller;
 
 class DefaultController
 {
-    public function helloAction(FrameworkContext $context)
+    public function helloAction(TokenContext $context)
     {
         retun array('name' => $context->getCurrentUsername());
     }
@@ -27,7 +27,7 @@ The interface for this context is:
 
 ```php
 <?php
-interface FrameworkContext
+interface TokenContext
 {
     /**
      * If a security context and token exists, retrieve the username.

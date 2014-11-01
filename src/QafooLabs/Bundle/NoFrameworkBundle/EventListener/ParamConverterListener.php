@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use QafooLabs\Bundle\NoFrameworkBundle\SymfonyFlashBag;
 use QafooLabs\Bundle\NoFrameworkBundle\Request\SymfonyFormRequest;
-use QafooLabs\Bundle\NoFrameworkBundle\SymfonyFrameworkContext;
+use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 
 /**
  * Convert the request parameters into objects when typehinted.
@@ -54,8 +54,8 @@ class ParamConverterListener
                 $value = $request->getSession();
             } else if ("QafooLabs\\MVC\\FormRequest" === $class) {
                 $value = new SymfonyFormRequest($request, $this->container->get('form.factory'));
-            } else if ("QafooLabs\\MVC\\FrameworkContext" === $class) {
-                $value = new SymfonyFrameworkContext(
+            } else if ("QafooLabs\\MVC\\TokenContext" === $class) {
+                $value = new SymfonyTokenContext(
                     $this->container->get('security.context')
                 );
             } else {

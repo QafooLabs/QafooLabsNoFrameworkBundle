@@ -2,7 +2,7 @@
 
 namespace QafooLabs\MVC;
 
-interface FrameworkContext
+interface TokenContext
 {
     /**
      * If a security context and token exists, retrieve the user id.

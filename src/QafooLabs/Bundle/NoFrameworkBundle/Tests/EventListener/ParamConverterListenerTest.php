@@ -3,7 +3,7 @@
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener;
-use QafooLabs\MVC\FrameworkContext;
+use QafooLabs\MVC\TokenContext;
 use QafooLabs\MVC\Flash;
 
 use Symfony\Component\DependencyInjection\Container;
@@ -37,7 +37,7 @@ class ParamConverterListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($request->attributes->has('session'));
     }
 
-    public function someAction(Session $session, FrameworkContext $context, Flash $flash)
+    public function someAction(Session $session, TokenContext $context, Flash $flash)
     {
     }
 }

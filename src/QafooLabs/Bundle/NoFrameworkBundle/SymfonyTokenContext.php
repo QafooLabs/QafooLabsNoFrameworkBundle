@@ -7,6 +7,7 @@ use QafooLabs\MVC\Exception;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SymfonyTokenContext implements TokenContext
 {
@@ -102,5 +103,12 @@ class SymfonyTokenContext implements TokenContext
     public function isGranted($attributes, $object = null)
     {
         return $this->securityContext->isGranted($attributes, $object);
+    }
+
+    public function assertIsGranted($attributes, $object = null)
+    {
+        if (!$this->isGranted($attributes, $object)) {
+            throw new AccessDeniedHttpException();
+        }
     }
 }

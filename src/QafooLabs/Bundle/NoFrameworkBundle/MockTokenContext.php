@@ -7,6 +7,7 @@ use QafooLabs\MVC\Exception;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class MockTokenContext implements TokenContext
 {
@@ -90,5 +91,12 @@ class MockTokenContext implements TokenContext
         }
 
         return false;
+    }
+
+    public function assertIsGranted($attributes, $object = null)
+    {
+        if (!$this->isGranted($attributes, $object)) {
+            throw new AccessDeniedHttpException();
+        }
     }
 }

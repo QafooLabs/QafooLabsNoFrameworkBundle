@@ -54,7 +54,16 @@ interface TokenContext
     public function getToken();
 
     /**
+     * @param mixed $attributes
+     * @param mixed $object
      * @return bool
      */
     public function isGranted($attributes, $object = null);
+
+    /**
+     * @param mixed $attributes
+     * @param mixed $object
+     * @throws AccessDeniedHttpException
+     */
+    public function assertIsGranted($attributes, $object = null);
 }

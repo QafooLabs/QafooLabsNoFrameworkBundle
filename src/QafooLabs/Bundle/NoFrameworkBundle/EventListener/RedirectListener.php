@@ -2,10 +2,10 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 
-use QafooLabs\MVC\RedirectRouteResponse;
+use QafooLabs\MVC\RedirectRoute;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 
 /**
@@ -27,20 +27,23 @@ class RedirectListener
     {
         $redirect = $event->getControllerResult();
 
-        if ( ! ($redirect instanceof RedirectRouteResponse)) {
+        if ( ! ($redirect instanceof RedirectRoute)) {
             return;
         }
 
-        $event->setResponse(
-            new RedirectResponse(
-                $this->router->generate(
-                    $redirect->getRouteName(),
-                    $redirect->getParameters()
-                ),
-                $redirect->getStatusCode(),
-                $redirect->getHeaders()
-            )
+        $response = $redirect->getResponse();
+
+        if ( ! $response) {
+            $response = new Response("", 302);
+        }
+
+        $url = $this->router->generate(
+            $redirect->getRouteName(),
+            $redirect->getParameters()
         );
+        $response->headers->set('Location', $url);
+
+        $event->setResponse($response);
     }
 }
 

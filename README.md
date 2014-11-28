@@ -181,12 +181,15 @@ class DefaultController
 {
     public function redirectAction()
     {
-        return new RedirectRouteResponse('hello', array(
+        return new RedirectRoute('hello', array(
             'name' => 'Fabien'
         ));
     }
 }
 ```
+
+If you want to set headers or different status code you can pass a `Response`
+as third argument, which will be used instead of creating a new one.
 
 ## Inject TokenContext into actions
 

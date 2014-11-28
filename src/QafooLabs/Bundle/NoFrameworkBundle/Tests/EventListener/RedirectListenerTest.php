@@ -4,6 +4,7 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\RedirectListener;
 use QafooLabs\MVC\RedirectRouteResponse;
+use QafooLabs\MVC\RedirectRoute;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,9 +33,30 @@ class RedirectListenerTest extends \PHPUnit_Framework_TestCase
 
 
         $this->assertInstanceOf(
-            'Symfony\Component\HttpFoundation\RedirectResponse',
+            'Symfony\Component\HttpFoundation\Response',
             $event->getResponse()
         );
+        $this->assertTrue($event->getResponse()->isRedirect());
+
+        $this->assertEquals('/foo?id=10', $event->getResponse()->headers->get('Location'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_redirects_when_redirect_route_result()
+    {
+        \Phake::when($this->router)->generate('foo', array('id' => 10))->thenReturn('/foo?id=10');
+
+        $event = $this->createEventWith(new RedirectRoute('foo', array('id' => 10)));
+        $this->listener->onKernelView($event);
+
+
+        $this->assertInstanceOf(
+            'Symfony\Component\HttpFoundation\Response',
+            $event->getResponse()
+        );
+        $this->assertTrue($event->getResponse()->isRedirect());
 
         $this->assertEquals('/foo?id=10', $event->getResponse()->headers->get('Location'));
     }

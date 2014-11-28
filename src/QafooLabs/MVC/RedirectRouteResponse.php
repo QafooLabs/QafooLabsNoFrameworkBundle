@@ -2,38 +2,22 @@
 
 namespace QafooLabs\MVC;
 
-class RedirectRouteResponse
-{
-    private $routeName;
-    private $parameters;
-    private $statusCode;
-    private $headers;
+use Symfony\Component\HttpFoundation\Response;
 
+class RedirectRouteResponse extends RedirectRoute
+{
     public function __construct($routeName, array $parameters = array(), $statusCode = 301, array $headers = array())
     {
-        $this->routeName = $routeName;
-        $this->parameters = $parameters;
-        $this->statusCode = $statusCode;
-        $this->headers = $headers;
-    }
-
-    public function getRouteName()
-    {
-        return $this->routeName;
-    }
-
-    public function getParameters()
-    {
-        return $this->parameters;
+        parent::__construct($routeName, $parameters, new Response("", $statusCode, $headers));
     }
 
     public function getStatusCode()
     {
-        return $this->statusCode;
+        return $this->getResponse()->getStatusCode();
     }
 
     public function getHeaders()
     {
-        return $this->headers;
+        return $this->getResponse()->headers->all();
     }
 }

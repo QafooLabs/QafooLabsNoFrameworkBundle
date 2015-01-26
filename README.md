@@ -17,7 +17,7 @@ from the beginning (except maybe Request/Response classes).
 For this reason the following features are provided by this bundle:
 
 - Returning View data from controllers
-- Returning RedirectRouteResponse
+- Returning RedirectRoute
 - Helper for Controllers as Service
 - Convert Exceptions from Domain/Library Types to Framework Types
 - JMS Serializer as Templating Engine
@@ -164,10 +164,10 @@ You can optionally extend from ``QafooLabs\Views\ViewStruct``.
 Every ``ViewStruct`` implementation has a constructor accepting and setting
 key-value pairs of properties that exist on the view model class.
 
-## RedirectRouteResponse
+## Redirect Route
 
 Redirecting in Symfony is much more likely to happen internally to a given
-route. The ``QafooLabs\Views\RedirectRouteResponse`` can be returned from
+route. The ``QafooLabs\Views\RedirectRoute`` can be returned from
 your controller and a listener will turn it into a proper Symfony ``RedirectResponse``:
 
 ```php
@@ -175,7 +175,7 @@ your controller and a listener will turn it into a proper Symfony ``RedirectResp
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\RedirectRouteResponse;
+use QafooLabs\Views\RedirectRoute;
 
 class DefaultController
 {
@@ -251,6 +251,7 @@ that hides all this:
 namespace Acme\DemoBundle\Controller;
 
 use QafooLabs\MVC\FormRequest;
+use QafooLabs\MVC\RedirectRoute;
 
 class ProductController
 {
@@ -273,7 +274,7 @@ class ProductController
 
         $this->repository->save($product);
 
-        return new RedirectRouteResponse('Product.show', array('id' => $id));
+        return new RedirectRoute('Product.show', array('id' => $id));
     }
 }
 ```

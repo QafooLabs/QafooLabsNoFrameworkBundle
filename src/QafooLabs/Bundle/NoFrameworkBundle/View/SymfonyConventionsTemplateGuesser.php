@@ -65,7 +65,7 @@ class SymfonyConventionsTemplateGuesser implements TemplateGuesser
 
     private function extractControllerName($className)
     {
-        if (!preg_match('/Controller\\\(.+)Controller$/', $className, $matchController)) {
+        if (!preg_match('/\\\(.+)Controller$/', $className, $matchController)) {
             throw new \InvalidArgumentException(sprintf('The "%s" class does not look like a controller class (it must be in a "Controller" sub-namespace and the class name must end with "Controller")', $className));
         }
 

@@ -22,13 +22,26 @@ class SymfonyConventionsTemplateGuesserTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_converts_controller_to_template_reference()
+    public function it_converts_convention_controller_to_template_reference()
     {
         \Phake::when($this->bundleLocation)->locationFor('Controller\\FooController')->thenReturn('Bundle');
 
         $this->assertEquals(
             'Bundle:Foo:bar.html.twig',
             $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', null, 'html', 'twig')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_converts_any_suffixed_controller_to_template_reference()
+    {
+        \Phake::when($this->bundleLocation)->locationFor('Product\\ProductController')->thenReturn('Bundle');
+
+        $this->assertEquals(
+            'Bundle:Product:list.html.twig',
+            $this->guesser->guessControllerTemplateName('Product\\ProductController::listAction', null, 'html', 'twig')
         );
     }
 

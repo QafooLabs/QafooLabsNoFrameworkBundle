@@ -27,7 +27,7 @@ class SymfonyTokenContext implements TokenContext
      */
     public function getCurrentUserId()
     {
-        return $this->getUser()->getId();
+        return $this->getCurrentUser()->getId();
     }
 
     /**

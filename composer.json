@@ -8,19 +8,21 @@
         {"name": "Benjamin Eberlei", "email": "benjamin@qafoo.com"},
         {"name": "Manuel Pichler", "email": "manuel@qafoo.com"}
     ],
-    "require": {
-        "symfony/framework-bundle": "~2.1",
-        "sensio/framework-extra-bundle": "~3.0"
-    },
     "require-dev": {
         "phake/phake": "@stable",
         "symfony/form": "@stable",
-        "jms/serializer": "@stable"
+        "jms/serializer": "@stable",
+        "symfony/framework-bundle": "~2.1",
+        "sensio/framework-extra-bundle": "~3.0"
     },
     "autoload": {
         "psr-0": {
             "QafooLabs\\Bundle\\NoFrameworkBundle\\": "src/",
             "QafooLabs\\MVC\\": "src/"
         }
+    },
+    "suggest": {
+        "symfony/framework-bundle": "~2.1 required",
+        "sensio/framework-extra-bundle": "~3.0 required"
     }
 }

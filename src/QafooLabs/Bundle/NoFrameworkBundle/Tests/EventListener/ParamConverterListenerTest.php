@@ -3,6 +3,7 @@
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener;
+use QafooLabs\Bundle\NoFrameworkBundle\ParamConverter\SymfonyServiceProvider;
 use QafooLabs\MVC\TokenContext;
 use QafooLabs\MVC\Flash;
 
@@ -21,9 +22,10 @@ class ParamConverterListenerTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container;
         $container->set('security.context', $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface'));
+        $serviceProvider = new SymfonyServiceProvider($container);
 
         $kernel = \Phake::mock('Symfony\Component\HttpKernel\HttpKernelInterface');
-        $listener = new ParamConverterListener($container);
+        $listener = new ParamConverterListener($serviceProvider);
 
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));

@@ -2,8 +2,8 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 
+use QafooLabs\Bundle\NoFrameworkBundle\ParamConverter\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use QafooLabs\Bundle\NoFrameworkBundle\SymfonyFlashBag;
 use QafooLabs\Bundle\NoFrameworkBundle\Request\SymfonyFormRequest;
 use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
@@ -18,13 +18,13 @@ use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 class ParamConverterListener
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var ServiceProviderInterface
      */
-    private $container;
+    private $serviceProvider;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ServiceProviderInterface $container)
     {
-        $this->container = $container;
+        $this->serviceProvider = $container;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -53,10 +53,10 @@ class ParamConverterListener
                    $class === "Symfony\\Component\\HttpFoundation\\Session\\SessionInterface") {
                 $value = $request->getSession();
             } else if ("QafooLabs\\MVC\\FormRequest" === $class) {
-                $value = new SymfonyFormRequest($request, $this->container->get('form.factory'));
+                $value = new SymfonyFormRequest($request, $this->serviceProvider->getFormFactory());
             } else if ("QafooLabs\\MVC\\TokenContext" === $class) {
                 $value = new SymfonyTokenContext(
-                    $this->container->get('security.context')
+                    $this->serviceProvider->getSecurityContext()
                 );
             } else {
                 continue;

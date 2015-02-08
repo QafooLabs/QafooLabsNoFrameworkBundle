@@ -15,6 +15,7 @@
         <parameter key="qafoo_labs_noframework.convert_exception_listener.class">QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener</parameter>
         <parameter key="qafoo_labs_noframework.session_converter.class">QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\SessionConverter</parameter>
         <parameter key="qafoo_labs_noframework.flash_converter.class">QafooLabs\Bundle\NoFrameworkBundle\Request\ParamConverter\FlashConverter</parameter>
+        <parameter key="qafoo_labs_noframework.param_converter.service_provider.class">QafooLabs\Bundle\NoFrameworkBundle\ParamConverter\SymfonyServiceProvider</parameter>
     </parameters>
 
     <services>
@@ -63,8 +64,12 @@
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
         </service>
 
-        <service id="qafoo_labs_noframework.param_converter_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener">
+        <service id="qafoo_labs_noframework.param_converter.service_provider" class="%qafoo_labs_noframework.param_converter.service_provider.class%">
             <argument type="service" id="service_container" />
+        </service>
+
+        <service id="qafoo_labs_noframework.param_converter_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener">
+            <argument type="service" id="qafoo_labs_noframework.param_converter.service_provider" />
 
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>

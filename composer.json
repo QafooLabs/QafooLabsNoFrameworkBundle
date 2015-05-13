@@ -9,9 +9,9 @@
         {"name": "Manuel Pichler", "email": "manuel@qafoo.com"}
     ],
     "require-dev": {
-        "phake/phake": "@stable",
-        "symfony/form": "@stable",
-        "jms/serializer": "@stable",
+        "phake/phake": "*",
+        "symfony/form": "*",
+        "jms/serializer": "*",
         "symfony/framework-bundle": "~2.1",
         "sensio/framework-extra-bundle": "~3.0"
     },

@@ -21,7 +21,8 @@ class ParamConverterListenerTest extends \PHPUnit_Framework_TestCase
     public function it_converts_parameters()
     {
         $container = new Container;
-        $container->set('security.context', $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface'));
+        $container->set('security.token_storage', \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'));
+        $container->set('security.authorization_checker', \Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface'));
         $serviceProvider = new SymfonyServiceProvider($container);
 
         $kernel = \Phake::mock('Symfony\Component\HttpKernel\HttpKernelInterface');
@@ -30,16 +31,13 @@ class ParamConverterListenerTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
-        $event = new FilterControllerEvent($kernel, array($this, 'someAction'), $request, null);
+        $method = function(Session $session, TokenContext $context, Flash $flash) {};
+        $event = new FilterControllerEvent($kernel, $method, $request, null);
 
         $listener->onKernelController($event);
 
         $this->assertTrue($request->attributes->has('flash'));
         $this->assertTrue($request->attributes->has('context'));
         $this->assertTrue($request->attributes->has('session'));
-    }
-
-    public function someAction(Session $session, TokenContext $context, Flash $flash)
-    {
     }
 }

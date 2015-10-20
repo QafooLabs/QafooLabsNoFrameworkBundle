@@ -3,6 +3,8 @@
 namespace QafooLabs\Bundle\NoFrameworkBundle\ParamConverter;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class SymfonyServiceProvider implements ServiceProviderInterface
 {
@@ -27,8 +29,16 @@ class SymfonyServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function getSecurityContext()
+    public function getTokenStorage()
     {
-        return $this->container->get('security.context');
+        return $this->container->get('security.token_storage');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthorizationChecker()
+    {
+        return $this->container->get('security.authorization_checker');
     }
 }

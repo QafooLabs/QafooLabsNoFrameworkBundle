@@ -5,17 +5,21 @@ namespace QafooLabs\Bundle\NoFrameworkBundle;
 use QafooLabs\MVC\TokenContext;
 use QafooLabs\MVC\Exception;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SymfonyTokenContext implements TokenContext
 {
-    private $securityContext;
+    private $tokenStorage;
+    private $authorizationChecker;
 
-    public function __construct(SecurityContextInterface $securityContext)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -67,7 +71,7 @@ class SymfonyTokenContext implements TokenContext
      */
     public function hasToken()
     {
-        return $this->securityContext->getToken() !== null;
+        return $this->tokenStorage->getToken() !== null;
     }
 
     /**
@@ -88,7 +92,7 @@ class SymfonyTokenContext implements TokenContext
      */
     public function getToken()
     {
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
 
         if ($token === null) {
             throw new Exception\UnauthenticatedUserException();
@@ -102,7 +106,7 @@ class SymfonyTokenContext implements TokenContext
      */
     public function isGranted($attributes, $object = null)
     {
-        return $this->securityContext->isGranted($attributes, $object);
+        return $this->authorizationChecker->isGranted($attributes, $object);
     }
 
     public function assertIsGranted($attributes, $object = null)

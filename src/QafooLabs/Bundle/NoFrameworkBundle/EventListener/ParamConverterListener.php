@@ -56,7 +56,8 @@ class ParamConverterListener
                 $value = new SymfonyFormRequest($request, $this->serviceProvider->getFormFactory());
             } else if ("QafooLabs\\MVC\\TokenContext" === $class) {
                 $value = new SymfonyTokenContext(
-                    $this->serviceProvider->getSecurityContext()
+                    $this->serviceProvider->getTokenStorage(),
+                    $this->serviceProvider->getAuthorizationChecker()
                 );
             } else {
                 continue;

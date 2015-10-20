@@ -6,16 +6,23 @@ use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 
 class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
 {
+    private $tokenStorage;
+    private $authorizationChecker;
+    public function setUp()
+    {
+        $this->tokenStorage = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
+        $this->authorizationChecker = \Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
+        parent::setUp();
+    }
     /**
      * @test
      */
     public function it_retrieves_token_from_security_context()
     {
-        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
         $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyTokenContext($security, 'dev', true);
+        \Phake::when($this->tokenStorage)->getToken()->thenReturn($token);
 
-        \Phake::when($security)->getToken()->thenReturn($token);
+        $context = new SymfonyTokenContext($this->tokenStorage, $this->authorizationChecker);
 
         $this->assertTrue($context->hasToken());
         $this->assertSame($token, $context->getToken());
@@ -26,9 +33,7 @@ class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_unauthenticated_user_exception_when_no_token()
     {
-        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
-        $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyTokenContext($security, 'dev', true);
+        $context = new SymfonyTokenContext($this->tokenStorage, $this->authorizationChecker);
 
         $this->setExpectedException('QafooLabs\MVC\Exception\UnauthenticatedUserException');
 
@@ -40,9 +45,7 @@ class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
      */
     public function it_allows_check_has_token()
     {
-        $security = \Phake::mock('Symfony\Component\Security\Core\SecurityContextInterface');
-        $token = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $context = new SymfonyTokenContext($security, 'dev', true);
+        $context = new SymfonyTokenContext($this->tokenStorage, $this->authorizationChecker);
 
         $this->assertFalse($context->hasToken());
     }

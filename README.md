@@ -2,6 +2,8 @@
 
 *Disclaimer: This is not an official Qafoo product but a prototype. We don't provide support on this repository.*
 
+[![Build Status](https://travis-ci.org/QafooLabs/QafooLabsNoFrameworkBundle.svg?branch=master)](https://travis-ci.org/QafooLabs/QafooLabsNoFrameworkBundle)
+
 ## Goals
 
 We want to achieve slim controllers that are registered as a service.  The

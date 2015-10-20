@@ -1,3 +1,8 @@
+# 2.4
+
+- Update Symfony dependencies to require at least 2.6
+- Fix deprecation warning when using SecurityContext (thanks @KingCrunch)
+
 # 2.0
 
 - BC Break: Renamed FrameworkContext to TokenContext

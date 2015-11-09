@@ -65,7 +65,7 @@ class ValidFormRequest implements FormRequest
      */
     public function getForm()
     {
-        throw new \BadMethodCallException("Not supported in InvalidFormRequest");
+        throw new \BadMethodCallException("Not supported in ValidFormRequest");
     }
 
     /**

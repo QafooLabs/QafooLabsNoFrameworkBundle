@@ -5,6 +5,7 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Request;
 use QafooLabs\MVC\Exception;
 use QafooLabs\MVC\FormRequest;
 
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -34,7 +35,7 @@ class SymfonyFormRequest implements FormRequest
     /**
      * Attempt to handle a form and return true when handled and data is valid.
      *
-     * @param string|Typeinterface $formType
+     * @param string|FormTypeInterface $formType
      * @param array|object $bindData
      * @param array $options
      * @throws Exception\FormAlreadyHandledException when a form was already bound on this request before.
@@ -50,7 +51,7 @@ class SymfonyFormRequest implements FormRequest
         $this->form = $this->formFactory->create($formType, $bindData, $options);
         $this->form->handleRequest($this->request);
 
-        return $this->form->isBound() && $this->form->isValid();
+        return $this->form->isSubmitted() && $this->form->isValid();
     }
 
     /**
@@ -88,7 +89,7 @@ class SymfonyFormRequest implements FormRequest
     {
         $this->assertFormHandled();
 
-        return $this->form->isBound();
+        return $this->form->isSubmitted();
     }
 
     /**
@@ -106,7 +107,7 @@ class SymfonyFormRequest implements FormRequest
      *
      * Throws exception when no form was handled yet.
      *
-     * @return \Symfony\Component\Form\FormViewInterface
+     * @return \Symfony\Component\Form\FormView
      */
     public function createFormView()
     {

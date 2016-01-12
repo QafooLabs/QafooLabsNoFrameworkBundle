@@ -2,7 +2,6 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,8 +12,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * Controller Utilities Service.
@@ -205,7 +204,8 @@ class ControllerUtils
      */
     public function assertCsrfTokenValid($name, $token)
     {
-        if (!$this->container->get('form.csrf_provider')->isCsrfTokenValid($name, $token)) {
+        /* @var $provider \Symfony\Component\Security\Csrf\CsrfTokenManagerInterface */
+        if (!$this->container->get('security.csrf.token_manager')->isTokenValid(new CsrfToken($name, $token))) {
             throw $this->createAccessDeniedException();
         }
     }
@@ -218,7 +218,7 @@ class ControllerUtils
      */
     public function generateCsrfToken($name)
     {
-        return $this->container->get('form.csrf_provider')->generateCsrfToken($name);
+        return $this->container->get('security.csrf.token_manager')->getToken($name)->getValue();
     }
 
     /**
@@ -232,11 +232,11 @@ class ControllerUtils
      */
     public function getUser()
     {
-        if (!$this->container->has('security.context')) {
+        if (!$this->container->has('security.token_storage')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
 
-        if (null === $token = $this->container->get('security.context')->getToken()) {
+        if (null === $token = $this->container->get('security.token_storage')->getToken()) {
             return null;
         }
 
@@ -257,11 +257,11 @@ class ControllerUtils
      */
     public function isGranted($attributes, $object = null)
     {
-        if (!$this->container->has('security.context')) {
+        if (!$this->container->has('security.authorization_checker')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
 
-        return $this->container->get('security.context')->isGranted($attributes, $object);
+        return $this->container->get('security.authorization_checker')->isGranted($attributes, $object);
     }
 
     /**

@@ -10,9 +10,10 @@
     ],
     "require-dev": {
         "phake/phake": "*",
-        "symfony/form": "*",
+        "symfony/form": "^2.3|^3.0",
         "jms/serializer": "*",
-        "symfony/framework-bundle": "~2.6",
+        "symfony/security-core": "^2.6|^3.0",
+        "symfony/framework-bundle": "^2.6|^3.0",
         "sensio/framework-extra-bundle": "~3.0"
     },
     "autoload": {
@@ -22,7 +23,8 @@
         }
     },
     "suggest": {
-        "symfony/framework-bundle": "~2.1 required",
+        "symfony/security-core": "^2.6|^3.0 required",
+        "symfony/framework-bundle": "^2.6|^3.0 required",
         "sensio/framework-extra-bundle": "~3.0 required"
     }
 }

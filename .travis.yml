@@ -6,8 +6,22 @@ php:
   - 5.6
   - 7.0
 
-before_script:
+matrix:
+    fast_finish: true
+    include:
+        - php: 5.6
+          env: COMPOSER_FLAGS="--prefer-lowest"
+        - php: 5.6
+          env: SYMFONY_VERSION=2.8.*
+        - php: 5.6
+          env: SYMFONY_VERSION="3.*"
+
+before_install:
   - composer self-update
-  - composer install
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+
+install: composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
+
+script: ./vendor/bin/phpunit
 
 sudo: false

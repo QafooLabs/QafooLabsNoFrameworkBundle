@@ -20,7 +20,7 @@ class SymfonyFormRequestTest extends \PHPUnit_Framework_TestCase
         \Phake::when($formFactory)->create('form_type', null, array())->thenReturn(
             $form = \Phake::mock('Symfony\Component\Form\Form')
         );
-        \Phake::when($form)->isBound()->thenReturn(true);
+        \Phake::when($form)->isSubmitted()->thenReturn(true);
         \Phake::when($form)->isValid()->thenReturn(true);
 
         $handled = $formRequest->handle('form_type');

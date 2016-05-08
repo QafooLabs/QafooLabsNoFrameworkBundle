@@ -7,7 +7,6 @@ use QafooLabs\MVC\Exception;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -88,7 +87,7 @@ class SymfonyTokenContext implements TokenContext
      * Throws UnauthenticatedUserException when no valid token exists.
      *
      * @throws \QafooLabs\MVC\Exception\UnauthenticatedUserException
-     * @return \Symfony\Component\Securite\Core\Authentication\Token\TokenInterface
+     * @return \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      */
     public function getToken()
     {

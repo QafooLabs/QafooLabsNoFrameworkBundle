@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 use QafooLabs\Bundle\NoFrameworkBundle\Controller\ControllerUtils;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
 {
@@ -143,9 +144,10 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_asserts_csrf_token_validity()
     {
-        $csrfProvider = $this->mockContainerService('form.csrf_provider', 'Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface');
+        $csrfProvider = $this->mockContainerService('security.csrf.token_manager', 'Symfony\Component\Security\Csrf\CsrfTokenManagerInterface');
 
-        \Phake::when($csrfProvider)->isCsrfTokenValid('name', 'token')->thenReturn(false);
+
+        \Phake::when($csrfProvider)->isTokenValid()->thenReturn(false);
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
         $this->helper->assertCsrfTokenValid('name', 'token');
@@ -156,11 +158,10 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_generates_csrf_tokens()
     {
-        $csrfProvider = $this->mockContainerService('form.csrf_provider', 'Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface');
+        $csrfProvider = $this->mockContainerService('security.csrf.token_manager', 'Symfony\Component\Security\Csrf\CsrfTokenManagerInterface');
+        \Phake::when($csrfProvider)->getToken('name')->thenReturn(new CsrfToken('name', 'value'));
 
-        $this->helper->generateCsrfToken('name');
-
-        \Phake::verify($csrfProvider)->generateCsrfToken('name');
+        $this->assertSame('value', $this->helper->generateCsrfToken('name'));
     }
 
     /**
@@ -169,7 +170,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
     public function it_fails_returns_current_user_without_securitybundle()
     {
         $this->setExpectedException('LogicException', 'The SecurityBundle');
-        $user = $this->helper->getUser();
+        $this->helper->getUser();
     }
 
     /**
@@ -177,7 +178,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_current_user()
     {
-        $context = $this->mockContainerService('security.context', 'Symfony\Component\Security\Core\SecurityContextInterface');
+        $context = $this->mockContainerService('security.token_storage', 'Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $expectedUser = \Phake::mock('Symfony\Component\Security\Core\User\UserInterface');
         $token = new AnonymousToken('firewall', $expectedUser);
         \Phake::when($context)->getToken()->thenReturn($token);
@@ -201,7 +202,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_grants_access()
     {
-        $context = $this->mockContainerService('security.context', 'Symfony\Component\Security\Core\SecurityContextInterface');
+        $context = $this->mockContainerService('security.authorization_checker', 'Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
 
         $this->helper->isGranted('FOO');
 

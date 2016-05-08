@@ -1,3 +1,7 @@
+# 2.5
+
+- Symfony 3 compatibility
+
 # 2.4
 
 - Update Symfony dependencies to require at least 2.6

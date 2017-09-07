@@ -5,6 +5,7 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
 use QafooLabs\MVC\TemplateView;
@@ -61,6 +62,14 @@ class ViewListener
 
         if (!$controller || $templateView instanceof Response) {
             return;
+        }
+
+        $acceptableContentTypes = $event->getRequest()->getAcceptableContentTypes();
+        if (in_array('application/json', $acceptableContentTypes) ||
+            in_array('text/json', $acceptableContentTypes) ||
+            $event->getRequest()->isXmlHttpRequest()) {
+            $event->setResponse(new JsonResponse($templateView));
+            return true;
         }
 
         if ( ! ($templateView instanceof TemplateView)) {

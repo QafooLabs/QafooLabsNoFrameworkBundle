@@ -2,10 +2,11 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\Request;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\Request\SymfonyFormRequest;
 use Symfony\Component\HttpFoundation\Request;
 
-class SymfonyFormRequestTest extends \PHPUnit_Framework_TestCase
+class SymfonyFormRequestTest extends TestCase
 {
     /**
      * @test
@@ -46,7 +47,7 @@ class SymfonyFormRequestTest extends \PHPUnit_Framework_TestCase
 
         $formRequest->handle('form_type');
 
-        $this->setExpectedException('QafooLabs\MVC\Exception\FormAlreadyHandledException');
+        $this->expectException('QafooLabs\MVC\Exception\FormAlreadyHandledException');
         $formRequest->handle('form_type');
     }
 
@@ -60,7 +61,7 @@ class SymfonyFormRequestTest extends \PHPUnit_Framework_TestCase
             $formFactory = \Phake::mock('Symfony\Component\Form\FormFactoryInterface')
         );
 
-        $this->setExpectedException('QafooLabs\MVC\Exception\NoFormHandledException');
+        $this->expectException('QafooLabs\MVC\Exception\NoFormHandledException');
         $formRequest->createFormView();
     }
 }

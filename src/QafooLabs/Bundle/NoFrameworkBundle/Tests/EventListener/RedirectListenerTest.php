@@ -2,6 +2,8 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
+use PHPUnit\Framework\TestCase;
+
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\RedirectListener;
 use QafooLabs\MVC\RedirectRouteResponse;
 use QafooLabs\MVC\RedirectRoute;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class RedirectListenerTest extends \PHPUnit_Framework_TestCase
+class RedirectListenerTest extends TestCase
 {
     private $router;
     private $listener;

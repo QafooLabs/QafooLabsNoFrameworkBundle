@@ -2,9 +2,10 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\MockTokenContext;
 
-class MockTokenContextTest extends \PHPUnit_Framework_TestCase
+class MockTokenContextTest extends TestCase
 {
     /**
      * @test

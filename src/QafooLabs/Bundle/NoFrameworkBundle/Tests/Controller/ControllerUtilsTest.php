@@ -2,6 +2,7 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\Controller;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
@@ -9,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use QafooLabs\Bundle\NoFrameworkBundle\Controller\ControllerUtils;
 use Symfony\Component\Security\Csrf\CsrfToken;
 
-class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
+class ControllerUtilsTest extends TestCase
 {
     private $helper;
     private $container;
@@ -149,7 +150,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
 
         \Phake::when($csrfProvider)->isTokenValid()->thenReturn(false);
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
         $this->helper->assertCsrfTokenValid('name', 'token');
     }
 
@@ -169,7 +170,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_fails_returns_current_user_without_securitybundle()
     {
-        $this->setExpectedException('LogicException', 'The SecurityBundle');
+        $this->expectException('LogicException', 'The SecurityBundle');
         $this->helper->getUser();
     }
 
@@ -193,7 +194,7 @@ class ControllerUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function it_fails_granting_without_securitybundle()
     {
-        $this->setExpectedException('LogicException', 'The SecurityBundle');
+        $this->expectException('LogicException', 'The SecurityBundle');
         $this->helper->isGranted('foo');
     }
 

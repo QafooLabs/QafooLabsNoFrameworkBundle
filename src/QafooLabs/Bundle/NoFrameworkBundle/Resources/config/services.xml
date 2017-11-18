@@ -19,56 +19,56 @@
     </parameters>
 
     <services>
-        <service id="qafoo_labs_noframework.controller.name_parser" class="%qafoo_labs_noframework.controller.name_parser.class%">
+        <service id="qafoo_labs_noframework.controller.name_parser" class="%qafoo_labs_noframework.controller.name_parser.class%" public="true">
             <argument type="service" id="controller_name_converter" />
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="qafoo_labs_noframework.controller_utils" class="%qafoo_labs_noframework.controller_utils.class%">
+        <service id="qafoo_labs_noframework.controller_utils" class="%qafoo_labs_noframework.controller_utils.class%" public="true">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="qafoo_labs_noframework.view_listener" class="%qafoo_labs_noframework.view_listener.class%">
-            <argument type="service" id="templating" />
+        <service id="qafoo_labs_noframework.view_listener" class="%qafoo_labs_noframework.view_listener.class%" public="true">
+            <argument type="service" id="twig" />
             <argument type="service" id="qafoo_labs_noframework.template_guesser" />
             <argument>twig</argument>
 
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="10" />
         </service>
 
-        <service id="qafoo_labs_noframework.template_guesser" class="%qafoo_labs_noframework.template_guesser.class%">
+        <service id="qafoo_labs_noframework.template_guesser" class="%qafoo_labs_noframework.template_guesser.class%" public="true">
             <argument type="service" id="qafoo_labs_noframework.bundle_location" />
             <argument type="service" id="qafoo_labs_noframework.controller.name_parser" />
         </service>
 
-        <service id="qafoo_labs_noframework.bundle_location" class="%qafoo_labs_noframework.bundle_location.class%">
+        <service id="qafoo_labs_noframework.bundle_location" class="%qafoo_labs_noframework.bundle_location.class%" public="true">
             <argument type="service" id="kernel" />
         </service>
 
-        <service id="templating.engine.jms" class="%qafoo_labs_noframework.serializer_view_engine.class%">
+        <service id="templating.engine.jms" class="%qafoo_labs_noframework.serializer_view_engine.class%" public="true">
             <argument type="service" id="serializer" on-invalid="null" />
 
             <tag name="templating.engine" />
         </service>
 
-        <service id="qafoo_labs_noframework.redirect_listener" class="%qafoo_labs_noframework.redirect_listener.class%">
+        <service id="qafoo_labs_noframework.redirect_listener" class="%qafoo_labs_noframework.redirect_listener.class%" public="true">
             <argument type="service" id="router" />
 
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="20" />
         </service>
 
-        <service id="qafoo_labs_noframework.convert_exception_listener" class="%qafoo_labs_noframework.convert_exception_listener.class%">
+        <service id="qafoo_labs_noframework.convert_exception_listener" class="%qafoo_labs_noframework.convert_exception_listener.class%" public="true">
             <argument type="service" id="logger" />
             <argument>%qafoo_labs_noframework.convert_exceptions_map%</argument>
 
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="100" />
         </service>
 
-        <service id="qafoo_labs_noframework.param_converter.service_provider" class="%qafoo_labs_noframework.param_converter.service_provider.class%">
+        <service id="qafoo_labs_noframework.param_converter.service_provider" class="%qafoo_labs_noframework.param_converter.service_provider.class%" public="true">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="qafoo_labs_noframework.param_converter_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener">
+        <service id="qafoo_labs_noframework.param_converter_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener" public="true">
             <argument type="service" id="qafoo_labs_noframework.param_converter.service_provider" />
 
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />

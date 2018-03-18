@@ -15,11 +15,25 @@
         </service>
 
         <service id="qafoo_labs_noframework.view_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ViewListener">
-            <argument type="service" id="templating" />
-            <argument type="service" id="qafoo_labs_noframework.template_guesser" />
-            <argument>twig</argument>
-
             <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="10" />
+
+            <call method="addConverter">
+                <argument type="service">
+                    <service class="QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ArrayToTemplateResponseConverter">
+                        <argument type="service" id="templating" />
+                        <argument type="service" id="qafoo_labs_noframework.template_guesser" />
+                        <argument>twig</argument>
+                    </service>
+                </argument>
+            </call>
+
+            <call method="addConverter">
+                <argument type="service">
+                    <service class="QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\RedirectConverter">
+                        <argument type="service" id="router" />
+                    </service>
+                </argument>
+            </call>
         </service>
 
         <service id="qafoo_labs_noframework.template_guesser" class="QafooLabs\Bundle\NoFrameworkBundle\View\SymfonyConventionsTemplateGuesser">
@@ -35,12 +49,6 @@
             <argument type="service" id="serializer" on-invalid="null" />
 
             <tag name="templating.engine" />
-        </service>
-
-        <service id="qafoo_labs_noframework.redirect_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\RedirectListener">
-            <argument type="service" id="router" />
-
-            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="20" />
         </service>
 
         <service id="qafoo_labs_noframework.convert_exception_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener">

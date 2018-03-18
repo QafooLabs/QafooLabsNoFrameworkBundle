@@ -9,14 +9,15 @@
         {"name": "Manuel Pichler", "email": "manuel@qafoo.com"}
     ],
     "require-dev": {
+        "php": "~7.0",
         "phake/phake": "*",
-        "phpunit/phpunit": "^5.0|^6.0",
-        "symfony/form": "^2.3|^3.0|^4.0",
+        "phpunit/phpunit": "^6.0",
+        "symfony/form": "^3.0|^4.0",
         "jms/serializer": "*",
-        "symfony/security": "^2.6|^3.0|^4.0",
-        "symfony/templating": "^2.6|^3.0|^4.0",
-        "symfony/translation": "^2.6|^3.0|^4.0",
-        "symfony/framework-bundle": "^2.6|^3.0|^4.0",
+        "symfony/security": "^3.0|^4.0",
+        "symfony/templating": "^3.0|^4.0",
+        "symfony/translation": "^3.0|^4.0",
+        "symfony/framework-bundle": "^3.0|^4.0",
         "sensio/framework-extra-bundle": "~3.0"
     },
     "autoload": {
@@ -24,13 +25,5 @@
             "QafooLabs\\Bundle\\NoFrameworkBundle\\": "src/",
             "QafooLabs\\MVC\\": "src/"
         }
-    },
-    "suggest": {
-        "symfony/security": "^2.6|^3.0 required",
-        "symfony/templating": "^2.6|^3.0 required",
-        "symfony/translation": "^2.6|^3.0 required",
-        "symfony/framework-bundle": "^2.6|^3.0 required",
-        "sensio/framework-extra-bundle": "~3.0 required"
-    },
-    "minimum-stability": "dev"
+    }
 }

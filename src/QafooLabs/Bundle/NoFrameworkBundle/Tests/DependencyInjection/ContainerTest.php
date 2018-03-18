@@ -70,6 +70,11 @@ class ContainerTest extends TestCase
         $loader->load(array($config), $container);
 
         $container->getCompilerPassConfig()->setRemovingPasses(array());
+
+        foreach ($container->getDefinitions() as $definition) {
+            $definition->setPublic(true); // symfony 4 support
+        }
+
         $container->compile();
 
         return $container;

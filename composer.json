@@ -9,7 +9,7 @@
         {"name": "Manuel Pichler", "email": "manuel@qafoo.com"}
     ],
     "require-dev": {
-        "php": "~7.0",
+        "php": "~7.1",
         "phake/phake": "*",
         "phpunit/phpunit": "^6.0",
         "symfony/form": "^3.0|^4.0",

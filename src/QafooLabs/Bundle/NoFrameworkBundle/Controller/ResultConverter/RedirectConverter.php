@@ -30,8 +30,8 @@ class RedirectConverter implements ControllerResultConverter
         $response->headers->set(
             'Location',
             $this->router->generate(
-                $redirect->getRouteName(),
-                $redirect->getParameters()
+                $result->getRouteName(),
+                $result->getParameters()
             )
         );
 

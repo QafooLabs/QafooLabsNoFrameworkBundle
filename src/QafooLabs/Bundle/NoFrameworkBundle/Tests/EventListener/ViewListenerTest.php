@@ -2,6 +2,7 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ViewListener;
 use QafooLabs\MVC\TemplateView;
 
-class ViewListenerTest extends \PHPUnit_Framework_TestCase
+class ViewListenerTest extends TestCase
 {
     const A_CONTROLLER = 'foo';
     const A_TEMPLATE = 'bar';

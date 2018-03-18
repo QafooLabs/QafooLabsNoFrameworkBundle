@@ -2,12 +2,12 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\DependencyInjection\QafooLabsNoFrameworkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
     /**
      * @test
@@ -69,7 +69,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $container->registerExtension($loader);
         $loader->load(array($config), $container);
 
-        $container->getCompilerPassConfig()->setOptimizationPasses(array(new ResolveDefinitionTemplatesPass()));
         $container->getCompilerPassConfig()->setRemovingPasses(array());
         $container->compile();
 

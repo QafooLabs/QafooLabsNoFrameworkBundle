@@ -13,9 +13,10 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\Templating;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\Templating\JmsSerializerEngine;
 
-class JmsSerializerEngineTest extends \PHPUnit_Framework_TestCase
+class JmsSerializerEngineTest extends TestCase
 {
     public function setUp()
     {
@@ -38,7 +39,7 @@ class JmsSerializerEngineTest extends \PHPUnit_Framework_TestCase
      */
     public function it_refuses_to_render_view_without_data()
     {
-        $this->setExpectedException('RuntimeException', 'JmsSerializerEngine expects a template parameter "view" for serialization.');
+        $this->expectException('RuntimeException', 'JmsSerializerEngine expects a template parameter "view" for serialization.');
 
         $this->engine->render('Foo.xml.twig', array());
     }

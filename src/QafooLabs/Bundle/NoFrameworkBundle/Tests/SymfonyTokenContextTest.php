@@ -2,9 +2,10 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 
-class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
+class SymfonyTokenContextTest extends TestCase
 {
     private $tokenStorage;
     private $authorizationChecker;
@@ -35,7 +36,7 @@ class SymfonyTokenContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new SymfonyTokenContext($this->tokenStorage, $this->authorizationChecker);
 
-        $this->setExpectedException('QafooLabs\MVC\Exception\UnauthenticatedUserException');
+        $this->expectException('QafooLabs\MVC\Exception\UnauthenticatedUserException');
 
         $context->getToken();
     }

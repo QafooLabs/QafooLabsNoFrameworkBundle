@@ -2,11 +2,12 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use OutOfBoundsException;
 
-class ConvertExceptionListenerTest extends \PHPUnit_Framework_TestCase
+class ConvertExceptionListenerTest extends TestCase
 {
     /**
      * @test

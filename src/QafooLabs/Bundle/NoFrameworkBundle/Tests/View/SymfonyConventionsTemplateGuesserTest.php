@@ -2,9 +2,10 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\View;
 
+use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\View\SymfonyConventionsTemplateGuesser;
 
-class SymfonyConventionsTemplateGuesserTest extends \PHPUnit_Framework_TestCase
+class SymfonyConventionsTemplateGuesserTest extends TestCase
 {
     private $guesser;
 

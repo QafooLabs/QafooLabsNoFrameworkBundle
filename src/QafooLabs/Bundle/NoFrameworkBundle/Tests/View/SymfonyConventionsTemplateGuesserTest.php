@@ -83,7 +83,7 @@ class SymfonyConventionsTemplateGuesserTest extends TestCase
         \Phake::when($this->bundleLocation)->locationFor('App\\Controller\\FooController')->thenReturn('Bundle');
 
         $this->assertEquals(
-            ':Foo:baz.html.twig',
+            'Foo/baz.html.twig',
             $this->guesser->guessControllerTemplateName('App\\Controller\\FooController::barAction', 'baz', 'html', 'twig')
         );
     }

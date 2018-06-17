@@ -73,4 +73,18 @@ class SymfonyConventionsTemplateGuesserTest extends TestCase
             $this->guesser->guessControllerTemplateName('Controller\\FooController::barAction', 'baz', 'html', 'twig')
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_detects_symfony_flex_controllers()
+    {
+        \Phake::when($this->parser)->parse('foo:barAction')->thenReturn('App\\Controller\\FooController::barAction');
+        \Phake::when($this->bundleLocation)->locationFor('App\\Controller\\FooController')->thenReturn('Bundle');
+
+        $this->assertEquals(
+            ':Foo:baz.html.twig',
+            $this->guesser->guessControllerTemplateName('App\\Controller\\FooController::barAction', 'baz', 'html', 'twig')
+        );
+    }
 }

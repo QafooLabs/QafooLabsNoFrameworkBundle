@@ -46,6 +46,10 @@ class SymfonyConventionsTemplateGuesser implements TemplateGuesser
             $actionName = $this->extractActionName($method);
         }
 
+        if (strpos($className, "App\\Controller") === 0) {
+            return ['', $controllerName, $actionName];
+        }
+
         return array($bundleName, $controllerName, $actionName);
     }
 

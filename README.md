@@ -350,3 +350,14 @@ application, and prepend the `jms` engine to the configured templating engines:
     framework:
         templating:
             engines: ['jms', 'twig']
+
+## Turbolinks Support
+
+To improve performance with traditional HTML response webapplications Basecamp
+introduced [Turbolinks](https://github.com/turbolinks/turbolinks), a library
+that uses Ajax to follow same domain links and then replaces only head title
+and body to keep javascript and CSS in place.
+
+The QafooLabsNoFrameworkBundle provides out of the box support for the
+turbolinks JS library in the browser by setting the `Turbolinks-Location`
+header after redirects.

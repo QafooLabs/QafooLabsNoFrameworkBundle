@@ -59,5 +59,9 @@
 
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
+
+        <service id="qafoo_labs_noframework.turbolinks_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\TurbolinksListener">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+        </service>
     </services>
 </container>

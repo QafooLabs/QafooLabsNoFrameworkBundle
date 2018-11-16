@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerResultConverter;
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerYieldApplier;
 use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
 use QafooLabs\MVC\TemplateView;
 use Generator;
@@ -19,9 +20,16 @@ class ViewListener
 {
     private $converters = [];
 
+    private $yieldAppliers = [];
+
     public function addConverter(ControllerResultConverter $converter)
     {
         $this->converters[] = $converter;
+    }
+
+    public function addYieldApplier(ControllerYieldApplier $applier)
+    {
+        $this->yieldAppliers[] = $applier;
     }
 
     public function onKernelView(GetResponseForControllerResultEvent $event)
@@ -41,7 +49,7 @@ class ViewListener
 
         $response = ($result instanceof Generator)
             ? $this->unrollGenerator($result, $request)
-            : $this->convert($result, $request, null);
+            : $this->convert($result, $request);
 
         if ($response) {
             $event->setResponse($response);
@@ -50,33 +58,47 @@ class ViewListener
 
     private function unrollGenerator(Generator $generator, Request $request): ?Response
     {
-        $results = [];
+        $yields = [];
 
         foreach ($generator as $element) {
-            $results[] = $element;
+            $yields[] = $element;
         }
 
-        if ($result = $generator->getReturn()) {
-            $results[] = $result;
+        $result = $generator->getReturn();
+
+        if (!$result) {
+            throw new \LogicException("Controllers with generators must return a result that is or can be converted to a Response.");
         }
 
-        $response = null;
-        foreach (array_reverse($results) as $result) {
-            $response = $this->convert($result, $request, $response);
+        $response = $this->convert($result, $request);
+
+        foreach ($yields as $yield) {
+            foreach ($this->yieldAppliers as $applier) {
+                if ($applier->supports($yield)) {
+                    $applier->apply($yield, $request, $response);
+                }
+            }
         }
 
         return $response;
     }
 
-    private function convert($result, Request $request, Response $response = null): ?Response
+    private function convert($result, Request $request): Response
     {
+        if ($result instanceof Response) {
+            return $result;
+        }
+
         foreach ($this->converters as $converter) {
             if ($converter->supports($result)) {
-                return $converter->convert($result, $request, $response);
+                return $converter->convert($result, $request);
             }
         }
 
-        return null;
+        throw new \RuntimeException(sprintf(
+            'Could not convert type "%s" into a Response object. No converter found.',
+            is_object($result) ? get_class($result) : gettype($result)
+        ));
     }
 }
 

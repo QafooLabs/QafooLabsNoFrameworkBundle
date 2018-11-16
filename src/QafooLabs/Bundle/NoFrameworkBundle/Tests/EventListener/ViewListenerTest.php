@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerResultConverter;
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerYieldApplier;
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ViewListener;
 use QafooLabs\MVC\TemplateView;
 use QafooLabs\MVC\RedirectRoute;
@@ -21,13 +22,16 @@ class ViewListenerTest extends TestCase
 
     private $listener;
     private $converter;
+    private $applier;
 
     public function setUp()
     {
         $this->converter = \Phake::mock(ControllerResultConverter::class);
+        $this->applier = \Phake::mock(ControllerYieldApplier::class);
 
         $this->listener = new ViewListener();
         $this->listener->addConverter($this->converter);
+        $this->listener->addYieldApplier($this->applier);
     }
 
     /**
@@ -94,9 +98,9 @@ class ViewListenerTest extends TestCase
 
         $this->listener->onKernelView($event = $this->createEventWith($request, $result));
 
-        \Phake::verify($this->converter)->convert(['foo' => 'bar'], $request, null);
-        \Phake::verify($this->converter)->convert($t, $request, $this->isInstanceOf(Response::class));
-        \Phake::verify($this->converter)->convert($r, $request , $this->isInstanceOf(Response::class));
+        \Phake::verify($this->converter)->convert(['foo' => 'bar'], $request);
+        \Phake::verify($this->applier)->supports($r);
+        \Phake::verify($this->applier)->supports($t);
 
         $this->assertInstanceOf(Response::class, $event->getResponse());
     }

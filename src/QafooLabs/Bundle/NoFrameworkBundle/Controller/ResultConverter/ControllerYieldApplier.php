@@ -5,8 +5,8 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-interface ControllerResultConverter
+interface ControllerYieldApplier
 {
-    public function supports($result);
-    public function convert($result, Request $request) : Response;
+    public function supports($yield);
+    public function apply($yield, Request $request, Response $response);
 }

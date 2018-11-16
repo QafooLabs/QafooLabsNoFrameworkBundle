@@ -21,11 +21,9 @@ class RedirectConverter implements ControllerResultConverter
         return ($redirect instanceof RedirectRoute);
     }
 
-    public function convert($result, Request $request, Response $response = null) : Response
+    public function convert($result, Request $request) : Response
     {
-        if ( ! $response) {
-            $response = new Response("", 302);
-        }
+        $response = new Response("", 302);
 
         $response->headers->set(
             'Location',

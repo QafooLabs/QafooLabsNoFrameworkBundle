@@ -32,7 +32,7 @@ class ArrayToTemplateResponseConverter implements ControllerResultConverter
         return is_array($result) || $templateView instanceof TemplateView;
     }
 
-    public function convert($result, Request $request, Response $response = null) : Response
+    public function convert($result, Request $request) : Response
     {
         $controller = $request->attributes->get('_controller');
 

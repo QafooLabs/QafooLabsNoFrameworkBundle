@@ -17,6 +17,11 @@ class BundleLocation
     {
         $bundle = $this->getBundleForClass($className);
 
+        // Bundle::getParent was removed in Symfony 4
+        if (!method_exists($bundle, 'getParent')) {
+            return $bundle->getName();
+        }
+
         while ($bundleName = $bundle->getName()) {
             if (null === $parentBundleName = $bundle->getParent()) {
                 $bundleName = $bundle->getName();

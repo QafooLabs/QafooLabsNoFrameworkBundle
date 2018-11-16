@@ -46,11 +46,19 @@ class SymfonyConventionsTemplateGuesser implements TemplateGuesser
             $actionName = $this->extractActionName($method);
         }
 
+        if (strpos($className, "App\\Controller") === 0) {
+            return ['', $controllerName, $actionName];
+        }
+
         return array($bundleName, $controllerName, $actionName);
     }
 
     private function createTemplateReference($bundleName, $controllerName, $actionName, $format, $engine)
     {
+        if (!$bundleName) {
+            return sprintf('%s/%s.%s.%s', $controllerName, $actionName, $format, $engine);
+        }
+
         return sprintf('%s:%s:%s.%s.%s', $bundleName, $controllerName, $actionName, $format, $engine);
     }
 

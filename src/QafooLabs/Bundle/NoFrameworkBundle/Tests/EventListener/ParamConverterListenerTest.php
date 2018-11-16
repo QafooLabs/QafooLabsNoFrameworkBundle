@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener;
 use QafooLabs\Bundle\NoFrameworkBundle\ParamConverter\SymfonyServiceProvider;
 use QafooLabs\MVC\TokenContext;
-use QafooLabs\MVC\Flash;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,12 +33,11 @@ class ParamConverterListenerTest extends TestCase
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
-        $method = function(Session $session, TokenContext $context, Flash $flash) {};
+        $method = function(Session $session, TokenContext $context) {};
         $event = new FilterControllerEvent($kernel, $method, $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener->onKernelController($event);
 
-        $this->assertTrue($request->attributes->has('flash'));
         $this->assertTrue($request->attributes->has('context'));
         $this->assertTrue($request->attributes->has('session'));
     }

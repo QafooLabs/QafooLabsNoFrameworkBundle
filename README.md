@@ -206,6 +206,7 @@ metadata:
 namespace Acme\DemoBundle\Controller;
 
 use QafooLabs\MVC\Headers;
+use QafooLabs\MVC\Flash;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class DefaultController
@@ -214,6 +215,7 @@ class DefaultController
     {
         yield new Cookie('name', $name);
         yield new Headers(['X-Hello' => $name]);
+        yield new Flash('warning', 'Hello ' . $name);
 
         return ['name' => $name];
     }
@@ -324,15 +326,9 @@ public function indexAction(Session $session)
 
 ## ParamConverter for Flash Messages
 
-You can pass a flash object as an argument to a controller:
+Passing `QafooLabs\MVC\Flash` is not supported anymore. You must
+migrate the code to use `yield Flash($type, $message);` instead.
 
-```
-use QafooLabs\MVC\Flash;
-
-public function indexAction(Flash $flash)
-{
-    $flash->add('notice', 'Hello World!');
-}
 ```
 
 ## Helper for Controllers as Service

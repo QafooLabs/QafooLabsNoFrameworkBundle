@@ -83,7 +83,7 @@ For this case you can change the previous example to return a ``TemplateView`` i
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\TemplateView;
+use QafooLabs\MVC\TemplateView;
 
 class DefaultController
 {
@@ -162,14 +162,14 @@ where the view model is available as the ``view`` twig variable:
 Hello {{ view.name }} or {{ view.reversedName }}!
 ```
 
-You can optionally extend from ``QafooLabs\Views\ViewStruct``.
+You can optionally extend from ``QafooLabs\MVC\ViewStruct``.
 Every ``ViewStruct`` implementation has a constructor accepting and setting
 key-value pairs of properties that exist on the view model class.
 
 ## Redirect Route
 
 Redirecting in Symfony is much more likely to happen internally to a given
-route. The ``QafooLabs\Views\RedirectRoute`` can be returned from
+route. The ``QafooLabs\MVC\RedirectRoute`` can be returned from
 your controller and a listener will turn it into a proper Symfony ``RedirectResponse``:
 
 ```php
@@ -177,7 +177,7 @@ your controller and a listener will turn it into a proper Symfony ``RedirectResp
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\RedirectRoute;
+use QafooLabs\MVC\RedirectRoute;
 
 class DefaultController
 {
@@ -205,7 +205,7 @@ metadata:
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\RedirectRoute;
+use QafooLabs\MVC\Headers;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class DefaultController
@@ -213,6 +213,8 @@ class DefaultController
     public function helloAction($name)
     {
         yield new Cookie('name', $name);
+        yield new Headers(['X-Hello' => $name]);
+
         return ['name' => $name];
     }
 }

@@ -193,6 +193,31 @@ class DefaultController
 If you want to set headers or different status code you can pass a `Response`
 as third argument, which will be used instead of creating a new one.
 
+## Add Cookies, Flash Messages, Cache Headers
+
+when returning a View model, array or redirect route from a controller, without
+direct access to the response there is no easy way to add response headers.
+This is where PHP generators come in and you can `yield` additional response
+metadata:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\Views\RedirectRoute;
+use Symfony\Component\HttpFoundation\Cookie;
+
+class DefaultController
+{
+    public function helloAction($name)
+    {
+        yield new Cookie('name', $name);
+        return ['name' => $name];
+    }
+}
+```
+
 ## Inject TokenContext into actions
 
 In Symfony access to security related information is available through the

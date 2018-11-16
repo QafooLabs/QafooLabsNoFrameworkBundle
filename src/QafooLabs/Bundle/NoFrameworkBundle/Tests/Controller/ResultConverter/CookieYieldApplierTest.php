@@ -26,7 +26,6 @@ class CookieYieldApplierTest extends TestCase
     public function testApplySetsCookie()
     {
         $request = new Request();
-        $request->attributes->set('_controller', 'ctrl');
         $response = new Response();
 
         $this->applier->apply(new Cookie('foo', 'bar'), $request, $response);

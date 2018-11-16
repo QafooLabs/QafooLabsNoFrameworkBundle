@@ -34,6 +34,12 @@
                     </service>
                 </argument>
             </call>
+
+            <call method="addYieldApplier">
+                <argument type="service">
+                    <service class="QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\CookieYieldApplier" />
+                </argument>
+            </call>
         </service>
 
         <service id="qafoo_labs_noframework.template_guesser" class="QafooLabs\Bundle\NoFrameworkBundle\View\SymfonyConventionsTemplateGuesser">

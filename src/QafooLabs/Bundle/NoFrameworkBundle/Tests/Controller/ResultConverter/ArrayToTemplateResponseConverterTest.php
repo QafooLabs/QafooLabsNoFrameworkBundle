@@ -26,6 +26,12 @@ class ArrayToTemplateResponseConverterTest extends TestCase
         );
     }
 
+    public function testSupports()
+    {
+        $this->assertTrue($this->converter->supports(new TemplateView(['foo' => 'bar'])));
+        $this->assertTrue($this->converter->supports([]));
+    }
+
     public function testRenderArrayToTemplateStringFromController()
     {
         $request = new Request();

@@ -29,7 +29,7 @@ class ArrayToTemplateResponseConverter implements ControllerResultConverter
 
     public function supports($result)
     {
-        return is_array($result) || $templateView instanceof TemplateView;
+        return is_array($result) || $result instanceof TemplateView;
     }
 
     public function convert($result, Request $request) : Response

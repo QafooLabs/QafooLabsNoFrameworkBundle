@@ -58,11 +58,7 @@ class ViewListener
 
     private function unrollGenerator(Generator $generator, Request $request): ?Response
     {
-        $yields = [];
-
-        foreach ($generator as $element) {
-            $yields[] = $element;
-        }
+        $yields = iterator_to_array($generator);
 
         $result = $generator->getReturn();
 

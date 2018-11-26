@@ -327,7 +327,7 @@ public function indexAction(Session $session)
 ## ParamConverter for Flash Messages
 
 Passing `QafooLabs\MVC\Flash` is not supported anymore. You must
-migrate the code to use `yield Flash($type, $message);` instead.
+migrate the code to use `yield new Flash($type, $message);` instead.
 
 ```
 

@@ -56,7 +56,7 @@ class ViewListener
         }
     }
 
-    private function unrollGenerator(Generator $generator, Request $request): ?Response
+    private function unrollGenerator(Generator $generator, Request $request) : Response
     {
         $yields = iterator_to_array($generator);
 
@@ -79,7 +79,7 @@ class ViewListener
         return $response;
     }
 
-    private function convert($result, Request $request): Response
+    private function convert($result, Request $request) : Response
     {
         if ($result instanceof Response) {
             return $result;

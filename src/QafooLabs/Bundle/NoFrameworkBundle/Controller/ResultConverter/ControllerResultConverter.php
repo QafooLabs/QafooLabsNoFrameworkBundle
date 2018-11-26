@@ -7,6 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface ControllerResultConverter
 {
-    public function supports($result);
+    public function supports($result) : bool;
     public function convert($result, Request $request) : Response;
 }

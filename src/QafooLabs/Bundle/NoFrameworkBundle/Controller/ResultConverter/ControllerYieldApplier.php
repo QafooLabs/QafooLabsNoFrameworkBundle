@@ -7,6 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface ControllerYieldApplier
 {
-    public function supports($yield);
+    public function supports($yield) : bool;
     public function apply($yield, Request $request, Response $response);
 }

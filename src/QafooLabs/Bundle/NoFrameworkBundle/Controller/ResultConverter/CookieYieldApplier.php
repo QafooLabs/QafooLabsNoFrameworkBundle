@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CookieYieldApplier implements ControllerYieldApplier
 {
-    public function supports($yield)
+    public function supports($yield) : bool
     {
         return $yield instanceof Cookie;
     }

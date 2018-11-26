@@ -27,7 +27,7 @@ class ArrayToTemplateResponseConverter implements ControllerResultConverter
         $this->engine = $engine;
     }
 
-    public function supports($result)
+    public function supports($result) : bool
     {
         return is_array($result) || $result instanceof TemplateView;
     }
@@ -47,7 +47,7 @@ class ArrayToTemplateResponseConverter implements ControllerResultConverter
         );
     }
 
-    private function makeResponseFor($controller, TemplateView $templateView, $requestFormat)
+    private function makeResponseFor($controller, TemplateView $templateView, $requestFormat) : Response
     {
         $viewName = $this->guesser->guessControllerTemplateName(
             $controller,

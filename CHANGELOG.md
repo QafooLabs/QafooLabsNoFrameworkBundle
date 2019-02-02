@@ -1,3 +1,7 @@
+# 3.0-alpha1
+
+- Add Generator/yield support for Response metadata
+
 # 2.6
 
 - Symfony 4 compatibility

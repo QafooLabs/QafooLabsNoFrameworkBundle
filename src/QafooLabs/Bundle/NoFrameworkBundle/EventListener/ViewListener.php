@@ -5,47 +5,31 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerResultConverter;
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerYieldApplier;
 use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
 use QafooLabs\MVC\TemplateView;
+use Generator;
 
 /**
- * Converts ViewStruct and arrays from Controllers into Response objects.
- *
- * Guess the template names with the same algorithm that @Template()
- * in Sensio's NoFrameworkBundle uses. Works for both arrays
- * but also objects. In the later case the template is passed
- * a single variable 'view' containing the object. For arrays
- * a new key 'view' is created as well with a copy of the data
- * to allow forwards compatible migration towards the view models.
- *
- * That means you should always access variables through ``view.var``
+ * Converts non Response results into various side effects from a controller.
  */
 class ViewListener
 {
-    /**
-     * @var Symfony\Component\Templating\EngineInterface
-     */
-    private $templating;
+    private $converters = [];
 
-    /**
-     * @var QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser
-     */
-    private $guesser;
+    private $yieldAppliers = [];
 
-    /**
-     * @var string
-     */
-    private $engine;
-
-    /**
-     * @param string $engine
-     */
-    public function __construct(EngineInterface $templating, TemplateGuesser $guesser, $engine)
+    public function addConverter(ControllerResultConverter $converter)
     {
-        $this->templating = $templating;
-        $this->guesser    = $guesser;
-        $this->engine     = $engine;
+        $this->converters[] = $converter;
+    }
+
+    public function addYieldApplier(ControllerYieldApplier $applier)
+    {
+        $this->yieldAppliers[] = $applier;
     }
 
     public function onKernelView(GetResponseForControllerResultEvent $event)
@@ -57,35 +41,60 @@ class ViewListener
         }
 
         $controller = $request->attributes->get('_controller');
-        $templateView = $event->getControllerResult();
+        $result = $event->getControllerResult();
 
-        if (!$controller || $templateView instanceof Response) {
+        if (!$controller || $result instanceof Response) {
             return;
         }
 
-        if ( ! ($templateView instanceof TemplateView)) {
-            $templateView = new TemplateView($templateView);
-        }
+        $response = ($result instanceof Generator)
+            ? $this->unrollGenerator($result, $request)
+            : $this->convert($result, $request);
 
-        $event->setResponse(
-            $this->makeResponseFor($controller, $templateView, $request->getRequestFormat())
-        );
+        if ($response) {
+            $event->setResponse($response);
+        }
     }
 
-    private function makeResponseFor($controller, TemplateView $templateView, $requestFormat)
+    private function unrollGenerator(Generator $generator, Request $request) : Response
     {
-        $viewName = $this->guesser->guessControllerTemplateName(
-            $controller,
-            $templateView->getActionTemplateName(),
-            $requestFormat,
-            $this->engine
-        );
+        $yields = iterator_to_array($generator);
 
-        return new Response(
-            $this->templating->render($viewName, $templateView->getViewParams()),
-            $templateView->getStatusCode(),
-            $templateView->getHeaders()
-        );
+        $result = $generator->getReturn();
+
+        if (!$result) {
+            throw new \LogicException("Controllers with generators must return a result that is or can be converted to a Response.");
+        }
+
+        $response = $this->convert($result, $request);
+
+        foreach ($yields as $yield) {
+            foreach ($this->yieldAppliers as $applier) {
+                if ($applier->supports($yield)) {
+                    $applier->apply($yield, $request, $response);
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    private function convert($result, Request $request) : Response
+    {
+        if ($result instanceof Response) {
+            return $result;
+        }
+
+        foreach ($this->converters as $converter) {
+            if ($converter->supports($result)) {
+                return $converter->convert($result, $request);
+            }
+        }
+
+        throw new \RuntimeException(sprintf(
+            'Could not convert type "%s" into a Response object. No converter found.',
+            is_object($result) ? get_class($result) : gettype($result)
+        ));
     }
 }
 

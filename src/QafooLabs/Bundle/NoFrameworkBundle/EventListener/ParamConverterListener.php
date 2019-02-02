@@ -4,7 +4,6 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 
 use QafooLabs\Bundle\NoFrameworkBundle\ParamConverter\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use QafooLabs\Bundle\NoFrameworkBundle\SymfonyFlashBag;
 use QafooLabs\Bundle\NoFrameworkBundle\Request\SymfonyFormRequest;
 use QafooLabs\Bundle\NoFrameworkBundle\SymfonyTokenContext;
 
@@ -47,9 +46,7 @@ class ParamConverterListener
             $class = $param->getClass()->getName();
             $name = $param->getName();
 
-            if ("QafooLabs\\MVC\\Flash" === $class) {
-                $value = new SymfonyFlashBag($request->getSession()->getFlashBag());
-            } else if (is_subclass_of($class, "Symfony\\Component\\HttpFoundation\\Session\\SessionInterface") ||
+            if (is_subclass_of($class, "Symfony\\Component\\HttpFoundation\\Session\\SessionInterface") ||
                    $class === "Symfony\\Component\\HttpFoundation\\Session\\SessionInterface") {
                 $value = $request->getSession();
             } else if ("QafooLabs\\MVC\\FormRequest" === $class) {

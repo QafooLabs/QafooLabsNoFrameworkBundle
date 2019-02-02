@@ -5,10 +5,14 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\EventListener;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerResultConverter;
+use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ControllerYieldApplier;
 use QafooLabs\Bundle\NoFrameworkBundle\EventListener\ViewListener;
 use QafooLabs\MVC\TemplateView;
+use QafooLabs\MVC\RedirectRoute;
 
 class ViewListenerTest extends TestCase
 {
@@ -17,14 +21,17 @@ class ViewListenerTest extends TestCase
     const A_TEMPLATE_OVERWRITE = 'baz';
 
     private $listener;
-    private $guesser;
-    private $templating;
+    private $converter;
+    private $applier;
 
     public function setUp()
     {
-        $this->templating = \Phake::mock('Symfony\Component\Templating\EngineInterface');
-        $this->guesser = \Phake::mock('QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser');
-        $this->listener = new ViewListener($this->templating, $this->guesser, 'twig');
+        $this->converter = \Phake::mock(ControllerResultConverter::class);
+        $this->applier = \Phake::mock(ControllerYieldApplier::class);
+
+        $this->listener = new ViewListener();
+        $this->listener->addConverter($this->converter);
+        $this->listener->addYieldApplier($this->applier);
     }
 
     /**
@@ -36,8 +43,21 @@ class ViewListenerTest extends TestCase
 
         $this->listener->onKernelView($this->createEventWith($request));
 
-        \Phake::verifyNoInteraction($this->templating);
-        \Phake::verifyNoInteraction($this->guesser);
+        \Phake::verifyNoInteraction($this->converter);
+    }
+
+    /**
+     * @test
+     */
+    public function it_ignores_requests_returning_valid_response()
+    {
+        $result = new Response();
+
+        $request = $this->requestForController(self::A_CONTROLLER);
+
+        $this->listener->onKernelView($this->createEventWith($request, $result));
+
+        \Phake::verifyNoInteraction($this->converter);
     }
 
     /**
@@ -49,50 +69,40 @@ class ViewListenerTest extends TestCase
 
         $request = $this->requestForController(self::A_CONTROLLER);
 
-        $this->expectGuesserToReturnATemplateForAController($request);
+        $this->expectConverterToSupportResult();
 
-        $this->listener->onKernelView($this->createEventWith($request, $result));
+        $this->listener->onKernelView($event = $this->createEventWith($request, $result));
 
-        $expectedResult = array('foo' => 'bar', 'view' => array('foo' => 'bar'));
+        \Phake::verify($this->converter)->convert(['foo' => 'bar'], $request, null);
 
-        \Phake::verify($this->templating)->render(self::A_TEMPLATE, $expectedResult);
+        $this->assertInstanceOf(Response::class, $event->getResponse());
     }
 
     /**
      * @test
      */
-    public function it_generates_response_with_controller_object_result()
+    public function it_generates_response_with_controller_generator_result()
     {
-        $result = new \stdClass;
+        $r = new RedirectRoute('foo');
+        $t = new TemplateView('foo');
+        $ctrl = function() use ($r, $t) {
+            yield $r;
+            yield $t;
+            return ['foo' => 'bar'];
+        };
+        $result = $ctrl();
 
         $request = $this->requestForController(self::A_CONTROLLER);
 
-        $this->expectGuesserToReturnATemplateForAController($request);
+        $this->expectConverterToSupportResult();
 
-        $this->listener->onKernelView($this->createEventWith($request, $result));
+        $this->listener->onKernelView($event = $this->createEventWith($request, $result));
 
-        $expectedResult = array('view' => $result);
+        \Phake::verify($this->converter)->convert(['foo' => 'bar'], $request);
+        \Phake::verify($this->applier)->supports($r);
+        \Phake::verify($this->applier)->supports($t);
 
-        \Phake::verify($this->templating)->render(self::A_TEMPLATE, $expectedResult);
-    }
-
-    /**
-     * @test
-     */
-    public function it_generates_response_for_template_view()
-    {
-        $result = new \stdClass;
-
-        $request = $this->requestForController(self::A_CONTROLLER);
-
-        $this->expectGuesserToReturnATemplateForAController($request, self::A_TEMPLATE_OVERWRITE);
-
-        $templateView = new TemplateView($result, self::A_TEMPLATE_OVERWRITE);
-        $this->listener->onKernelView($this->createEventWith($request, $templateView));
-
-        $expectedResult = array('view' => $result);
-
-        \Phake::verify($this->templating)->render(self::A_TEMPLATE, $expectedResult);
+        $this->assertInstanceOf(Response::class, $event->getResponse());
     }
 
     private function requestForController($controller)
@@ -103,14 +113,9 @@ class ViewListenerTest extends TestCase
         return $request;
     }
 
-    private function expectGuesserToReturnATemplateForAController($request, $templateActionName = null)
+    private function expectConverterToSupportResult()
     {
-        \Phake::when($this->guesser)->guessControllerTemplateName(
-            self::A_CONTROLLER,
-            $templateActionName,
-            $request->getRequestFormat(),
-            'twig'
-        )->thenReturn(self::A_TEMPLATE);
+        \Phake::when($this->converter)->supports(\Phake::anyParameters())->thenReturn(true);
     }
 
     private function createEventWith(Request $request, $controllerResult = null)

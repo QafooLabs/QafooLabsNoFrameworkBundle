@@ -66,6 +66,7 @@ class ContainerTest extends TestCase
         $container->set('kernel', \Phake::mock('Symfony\Component\HttpKernel\KernelInterface'));
         $container->set('controller_name_converter', \Phake::mock('Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser'));
         $container->set('logger', \Phake::mock('Psr\Log\LoggerInterface'));
+        $container->set('router', \Phake::mock('Symfony\Component\Routing\Generator\UrlGeneratorInterface'));
         $container->registerExtension($loader);
         $loader->load(array($config), $container);
 

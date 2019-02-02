@@ -83,7 +83,7 @@ For this case you can change the previous example to return a ``TemplateView`` i
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\TemplateView;
+use QafooLabs\MVC\TemplateView;
 
 class DefaultController
 {
@@ -162,14 +162,14 @@ where the view model is available as the ``view`` twig variable:
 Hello {{ view.name }} or {{ view.reversedName }}!
 ```
 
-You can optionally extend from ``QafooLabs\Views\ViewStruct``.
+You can optionally extend from ``QafooLabs\MVC\ViewStruct``.
 Every ``ViewStruct`` implementation has a constructor accepting and setting
 key-value pairs of properties that exist on the view model class.
 
 ## Redirect Route
 
 Redirecting in Symfony is much more likely to happen internally to a given
-route. The ``QafooLabs\Views\RedirectRoute`` can be returned from
+route. The ``QafooLabs\MVC\RedirectRoute`` can be returned from
 your controller and a listener will turn it into a proper Symfony ``RedirectResponse``:
 
 ```php
@@ -177,7 +177,7 @@ your controller and a listener will turn it into a proper Symfony ``RedirectResp
 # src/Acme/DemoBundle/Controller/DefaultController.php
 namespace Acme\DemoBundle\Controller;
 
-use QafooLabs\Views\RedirectRoute;
+use QafooLabs\MVC\RedirectRoute;
 
 class DefaultController
 {
@@ -192,6 +192,35 @@ class DefaultController
 
 If you want to set headers or different status code you can pass a `Response`
 as third argument, which will be used instead of creating a new one.
+
+## Add Cookies, Flash Messages, Cache Headers
+
+when returning a View model, array or redirect route from a controller, without
+direct access to the response there is no easy way to add response headers.
+This is where PHP generators come in and you can `yield` additional response
+metadata:
+
+```php
+<?php
+# src/Acme/DemoBundle/Controller/DefaultController.php
+namespace Acme\DemoBundle\Controller;
+
+use QafooLabs\MVC\Headers;
+use QafooLabs\MVC\Flash;
+use Symfony\Component\HttpFoundation\Cookie;
+
+class DefaultController
+{
+    public function helloAction($name)
+    {
+        yield new Cookie('name', $name);
+        yield new Headers(['X-Hello' => $name]);
+        yield new Flash('warning', 'Hello ' . $name);
+
+        return ['name' => $name];
+    }
+}
+```
 
 ## Inject TokenContext into actions
 
@@ -297,15 +326,9 @@ public function indexAction(Session $session)
 
 ## ParamConverter for Flash Messages
 
-You can pass a flash object as an argument to a controller:
+Passing `QafooLabs\MVC\Flash` is not supported anymore. You must
+migrate the code to use `yield new Flash($type, $message);` instead.
 
-```
-use QafooLabs\MVC\Flash;
-
-public function indexAction(Flash $flash)
-{
-    $flash->add('notice', 'Hello World!');
-}
 ```
 
 ## Helper for Controllers as Service

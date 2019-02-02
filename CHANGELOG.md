@@ -1,3 +1,7 @@
+# 2.6
+
+- Symfony 4 compatibility
+
 # 2.5
 
 - Symfony 3 compatibility

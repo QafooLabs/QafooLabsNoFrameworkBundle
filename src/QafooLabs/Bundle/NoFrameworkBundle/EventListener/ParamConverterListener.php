@@ -31,8 +31,10 @@ class ParamConverterListener
         $controller = $event->getController();
         $request = $event->getRequest();
 
-        if (is_array($controller)) {
+        if (\is_array($controller)) {
             $r = new \ReflectionMethod($controller[0], $controller[1]);
+        } elseif ($controller instanceof \Closure || \method_exists($controller, '__invoke')) {
+            $r = new \ReflectionMethod($controller, '__invoke');
         } else {
             $r = new \ReflectionFunction($controller);
         }

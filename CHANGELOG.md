@@ -2,6 +2,7 @@
 
 - Remove JMS Serializer View Engine
 - Bump requirements to Symfony 4.0 and PHP 7.2
+- Add support for callables as controller
 
 # 3.0-alpha1
 

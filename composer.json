@@ -11,13 +11,13 @@
     "require-dev": {
         "php": "~7.1",
         "phake/phake": "*",
-        "phpunit/phpunit": "^6.0",
-        "symfony/form": "^3.0|^4.0",
+        "phpunit/phpunit": "^8.0",
+        "symfony/form": "^4.2",
         "jms/serializer": "*",
-        "symfony/security": "^3.0|^4.0",
-        "symfony/templating": "^3.0|^4.0",
-        "symfony/translation": "^3.0|^4.0",
-        "symfony/framework-bundle": "^3.0|^4.0",
+        "symfony/security": "^4.2",
+        "symfony/translation": "^4.2",
+        "symfony/framework-bundle": "^4.2",
+        "symfony/twig-bridge": "^4.2",
         "sensio/framework-extra-bundle": "~3.0"
     },
     "autoload": {

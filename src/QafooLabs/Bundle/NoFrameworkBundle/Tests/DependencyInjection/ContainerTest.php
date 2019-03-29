@@ -62,7 +62,7 @@ class ContainerTest extends TestCase
         )));
 
         $loader = new QafooLabsNoFrameworkExtension();
-        $container->set('templating', \Phake::mock('Symfony\Component\Templating\EngineInterface'));
+        $container->set('twig', \Phake::mock('Twig\Environment'));
         $container->set('kernel', \Phake::mock('Symfony\Component\HttpKernel\KernelInterface'));
         $container->set('controller_name_converter', \Phake::mock('Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser'));
         $container->set('logger', \Phake::mock('Psr\Log\LoggerInterface'));

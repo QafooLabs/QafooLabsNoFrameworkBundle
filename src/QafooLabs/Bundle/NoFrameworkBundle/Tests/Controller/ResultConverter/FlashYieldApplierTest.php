@@ -14,7 +14,7 @@ class FlashYieldApplierTest extends TestCase
 {
     private $applier;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->applier = new FlashYieldApplier();
     }

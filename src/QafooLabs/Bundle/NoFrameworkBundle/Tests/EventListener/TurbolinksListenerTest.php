@@ -19,7 +19,7 @@ class TurbolinksListenerTest extends TestCase
 {
     private $listener;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->listener = new TurbolinksListener();
     }

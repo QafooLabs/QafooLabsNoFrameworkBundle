@@ -24,7 +24,7 @@ class ViewListenerTest extends TestCase
     private $converter;
     private $applier;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->converter = \Phake::mock(ControllerResultConverter::class);
         $this->applier = \Phake::mock(ControllerYieldApplier::class);

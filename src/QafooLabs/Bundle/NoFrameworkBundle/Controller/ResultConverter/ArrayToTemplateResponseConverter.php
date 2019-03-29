@@ -2,11 +2,11 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter;
 
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
 use QafooLabs\MVC\TemplateView;
+use Twig\Environment;
 
 /**
  * Convert array or {@link TemplateView} struct into templated response.
@@ -16,13 +16,13 @@ use QafooLabs\MVC\TemplateView;
 */
 class ArrayToTemplateResponseConverter implements ControllerResultConverter
 {
-    private $templating;
+    private $twig;
     private $guesser;
     private $engine;
 
-    public function __construct(EngineInterface $templating, TemplateGuesser $guesser, string $engine)
+    public function __construct(Environment $twig, TemplateGuesser $guesser, string $engine)
     {
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->guesser = $guesser;
         $this->engine = $engine;
     }
@@ -57,7 +57,7 @@ class ArrayToTemplateResponseConverter implements ControllerResultConverter
         );
 
         return new Response(
-            $this->templating->render($viewName, $templateView->getViewParams()),
+            $this->twig->render($viewName, $templateView->getViewParams()),
             $templateView->getStatusCode(),
             $templateView->getHeaders()
         );

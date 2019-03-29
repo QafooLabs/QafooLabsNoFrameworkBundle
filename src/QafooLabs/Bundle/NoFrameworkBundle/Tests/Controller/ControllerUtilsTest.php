@@ -15,7 +15,7 @@ class ControllerUtilsTest extends TestCase
     private $helper;
     private $container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = new Container();
         $this->helper = new ControllerUtils($this->container);
@@ -77,7 +77,7 @@ class ControllerUtilsTest extends TestCase
      */
     public function it_renders_views()
     {
-        $templating = $this->mockContainerService('templating', 'Symfony\Component\Templating\EngineInterface');
+        $templating = $this->mockContainerService('twig', 'Twig\Environment');
 
         $this->helper->renderView('Foo', array('bar' => 'baz'));
 
@@ -89,23 +89,11 @@ class ControllerUtilsTest extends TestCase
      */
     public function it_renders_responses()
     {
-        $templating = $this->mockContainerService('templating', 'Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $templating = $this->mockContainerService('twig', 'Twig\Environment');
 
         $this->helper->render('Foo', array('bar' => 'baz'));
 
-        \Phake::verify($templating)->renderResponse('Foo', array('bar' => 'baz'), null);
-    }
-
-    /**
-     * @test
-     */
-    public function it_streams_responses()
-    {
-        $templating = $this->mockContainerService('templating', 'Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-
-        $response = $this->helper->stream('Foo', array('bar' => 'baz'));
-
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\StreamedResponse', $response);
+        \Phake::verify($templating)->render('Foo', array('bar' => 'baz'));
     }
 
     /**

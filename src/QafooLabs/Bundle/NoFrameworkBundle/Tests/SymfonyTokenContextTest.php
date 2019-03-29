@@ -9,7 +9,8 @@ class SymfonyTokenContextTest extends TestCase
 {
     private $tokenStorage;
     private $authorizationChecker;
-    public function setUp()
+
+    public function setUp() : void
     {
         $this->tokenStorage = \Phake::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $this->authorizationChecker = \Phake::mock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');

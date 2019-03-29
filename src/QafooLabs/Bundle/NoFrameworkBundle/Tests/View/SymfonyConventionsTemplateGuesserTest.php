@@ -9,7 +9,7 @@ class SymfonyConventionsTemplateGuesserTest extends TestCase
 {
     private $guesser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->bundleLocation = \Phake::mock('QafooLabs\Bundle\NoFrameworkBundle\View\BundleLocation');
         $this->parser = \Phake::mock('QafooLabs\Bundle\NoFrameworkBundle\Controller\QafooControllerNameParser');

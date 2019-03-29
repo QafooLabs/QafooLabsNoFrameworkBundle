@@ -5,7 +5,7 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\Controller\ResultConverter;
 use PHPUnit\Framework\TestCase;
 
 use QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ArrayToTemplateResponseConverter;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use QafooLabs\Bundle\NoFrameworkBundle\View\TemplateGuesser;
@@ -13,14 +13,14 @@ use QafooLabs\MVC\TemplateView;
 
 class ArrayToTemplateResponseConverterTest extends TestCase
 {
-    private $templating;
+    private $twig;
     private $guesser;
     private $converter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->converter = new ArrayToTemplateResponseConverter(
-            $this->templating = \Phake::mock(EngineInterface::class),
+            $this->twig = \Phake::mock(Environment::class),
             $this->guesser = \Phake::mock(TemplateGuesser::class),
             'twig'
         );
@@ -41,6 +41,6 @@ class ArrayToTemplateResponseConverterTest extends TestCase
 
         $response = $this->converter->convert(['foo' => 'bar'], $request);
 
-        \Phake::verify($this->templating)->render('ctrl.html.twig', ['foo' => 'bar', 'view' => ['foo' => 'bar']]);
+        \Phake::verify($this->twig)->render('ctrl.html.twig', ['foo' => 'bar', 'view' => ['foo' => 'bar']]);
     }
 }

@@ -17,7 +17,7 @@ class RedirectConverterTest extends TestCase
     private $router;
     private $converter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->router = \Phake::mock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
         $this->converter = new RedirectConverter($this->router);

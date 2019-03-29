@@ -1,7 +1,7 @@
 # 3.0-alpha2
 
 - Remove JMS Serializer View Engine
-- Bump requirements to Symfony 4.2
+- Bump requirements to Symfony 4.2 and PHP 7.2
 
 # 3.0-alpha1
 

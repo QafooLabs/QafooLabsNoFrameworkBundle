@@ -103,7 +103,7 @@ class ControllerUtils
      */
     public function renderView($view, array $parameters = array())
     {
-        return $this->container->get('templating')->render($view, $parameters);
+        return $this->container->get('twig')->render($view, $parameters);
     }
 
     /**
@@ -117,31 +117,13 @@ class ControllerUtils
      */
     public function render($view, array $parameters = array(), Response $response = null)
     {
-        return $this->container->get('templating')->renderResponse($view, $parameters, $response);
-    }
+        $content = $this->container->get('twig')->render($view, $parameters);
 
-    /**
-     * Streams a view.
-     *
-     * @param string           $view       The view name
-     * @param array            $parameters An array of parameters to pass to the view
-     * @param StreamedResponse $response   A response instance
-     *
-     * @return StreamedResponse A StreamedResponse instance
-     */
-    public function stream($view, array $parameters = array(), StreamedResponse $response = null)
-    {
-        $templating = $this->container->get('templating');
-
-        $callback = function () use ($templating, $view, $parameters) {
-            $templating->stream($view, $parameters);
-        };
-
-        if (null === $response) {
-            return new StreamedResponse($callback);
+        if (!$response) {
+            $response = new Response();
         }
 
-        $response->setCallback($callback);
+        $response->setContent($content);
 
         return $response;
     }

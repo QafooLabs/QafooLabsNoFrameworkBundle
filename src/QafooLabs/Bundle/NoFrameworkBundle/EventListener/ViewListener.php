@@ -2,7 +2,6 @@
 
 namespace QafooLabs\Bundle\NoFrameworkBundle\EventListener;
 
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;

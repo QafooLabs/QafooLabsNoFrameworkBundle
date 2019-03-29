@@ -20,7 +20,7 @@
             <call method="addConverter">
                 <argument type="service">
                     <service class="QafooLabs\Bundle\NoFrameworkBundle\Controller\ResultConverter\ArrayToTemplateResponseConverter">
-                        <argument type="service" id="templating" />
+                        <argument type="service" id="twig" />
                         <argument type="service" id="qafoo_labs_noframework.template_guesser" />
                         <argument>twig</argument>
                     </service>
@@ -61,12 +61,6 @@
 
         <service id="qafoo_labs_noframework.bundle_location" class="QafooLabs\Bundle\NoFrameworkBundle\View\BundleLocation">
             <argument type="service" id="kernel" />
-        </service>
-
-        <service id="templating.engine.jms" class="QafooLabs\Bundle\NoFrameworkBundle\Templating\JmsSerializerEngine">
-            <argument type="service" id="serializer" on-invalid="null" />
-
-            <tag name="templating.engine" />
         </service>
 
         <service id="qafoo_labs_noframework.convert_exception_listener" class="QafooLabs\Bundle\NoFrameworkBundle\EventListener\ConvertExceptionListener">

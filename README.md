@@ -22,7 +22,6 @@ For this reason the following features are provided by this bundle:
 - Returning RedirectRoute
 - Helper for Controllers as Service
 - Convert Exceptions from Domain/Library Types to Framework Types
-- JMS Serializer as Templating Engine
 
 ## Installation
 
@@ -358,21 +357,6 @@ Notable facts about the conversion:
 - If an exception is converted the original exception will specifically logged
   before conversion. That means when an exception occurs it will be logged
   twice.
-
-## JMS Serializer as Templating Engine
-
-When returning an array or view model from your controller, JMS Serializer
-can pick it up, when ``$request->getRequestFormat()`` returns `json` or `xml`.
-
-This works in combination with view models and you can return them from your
-controller and let JMS Serializer convert them correctly.
-
-In order for this to work, you need to add the JMS serializer bundle to your
-application, and prepend the `jms` engine to the configured templating engines:
-
-    framework:
-        templating:
-            engines: ['jms', 'twig']
 
 ## Turbolinks Support
 

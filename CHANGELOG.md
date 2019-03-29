@@ -1,3 +1,8 @@
+# 3.0-alpha2
+
+- Remove JMS Serializer View Engine
+- Bump requirements to Symfony 4.2
+
 # 3.0-alpha1
 
 - Add Generator/yield support for Response metadata

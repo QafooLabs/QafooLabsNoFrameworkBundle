@@ -3,6 +3,7 @@
 namespace QafooLabs\Bundle\NoFrameworkBundle\View;
 
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\Bundle;
 
 class BundleLocation
 {
@@ -17,33 +18,14 @@ class BundleLocation
     {
         $bundle = $this->getBundleForClass($className);
 
-        // Bundle::getParent was removed in Symfony 4
-        if (!method_exists($bundle, 'getParent')) {
-            return $bundle->getName();
+        if (!$bundle) {
+            return;
         }
 
-        while ($bundleName = $bundle->getName()) {
-            if (null === $parentBundleName = $bundle->getParent()) {
-                $bundleName = $bundle->getName();
-
-                break;
-            }
-
-            $bundles = $this->kernel->getBundle($parentBundleName, false);
-            $bundle = array_pop($bundles);
-        }
-
-        return $bundleName;
+        return $bundle->getName();
     }
 
-    /**
-     * Returns the Bundle instance in which the given class name is located.
-     *
-     * @param  string                    $class  A fully qualified controller class name
-     * @param  Bundle                    $bundle A Bundle instance
-     * @throws \InvalidArgumentException
-     */
-    protected function getBundleForClass($class)
+    protected function getBundleForClass(string $class) : ?Bundle
     {
         $reflectionClass = new \ReflectionClass($class);
         $bundles = $this->kernel->getBundles();
@@ -58,6 +40,6 @@ class BundleLocation
             $reflectionClass = $reflectionClass->getParentClass();
         } while ($reflectionClass);
 
-        throw new \InvalidArgumentException(sprintf('The "%s" class does not belong to a registered bundle.', $class));
+        return null;
     }
 }

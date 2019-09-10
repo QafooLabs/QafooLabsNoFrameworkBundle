@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class SymfonyFormRequestFactory to creates a SymfonyFormRequest via the Symfony request_stack.
  */
-final class SymfonyFormRequestFactory implements SymfonyFormRequestFactoryInterface
+final class SymfonyFormRequestFactory implements FormRequestFactoryInterface
 {
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack

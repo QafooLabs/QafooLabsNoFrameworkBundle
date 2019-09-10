@@ -9,7 +9,7 @@ use QafooLabs\MVC\FormRequest;
  *
  * @package App\Form
  */
-interface SymfonyFormRequestFactoryInterface
+interface FormRequestFactoryInterface
 {
     public function createFormRequest(): FormRequest;
 }

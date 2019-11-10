@@ -48,7 +48,17 @@ class SymfonyFormRequest implements FormRequest
             throw new Exception\FormAlreadyHandledException($this->form->getName());
         }
 
-        $this->form = $this->formFactory->create($formType, $bindData, $options);
+        if(is_string($formType))
+        {
+            $this->form = $this->formFactory->create($formType, $bindData, $options);
+        }
+        else
+        {
+            $formBuilder = $this->formFactory->createBuilder('Symfony\Component\Form\Extension\Core\Type\FormType',$bindData,$options);
+            $formType->buildForm($formBuilder,$formBuilder->getOptions());
+            $this->form = $formBuilder->getForm();
+        }
+
         $this->form->handleRequest($this->request);
 
         return $this->form->isSubmitted() && $this->form->isValid();

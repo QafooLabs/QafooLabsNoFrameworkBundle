@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/QafooLabs/QafooLabsNoFrameworkBundle.svg?branch=master)](https://travis-ci.org/QafooLabs/QafooLabsNoFrameworkBundle)
 
+This bundle is discontinued under this name and was moved to [https://github.com/gyro-project/mvc-bundle](https://github.com/gyro-project/mvc-bundle)
+
 ## Goals
 
 We want to achieve slim controllers that are registered as a service.  The

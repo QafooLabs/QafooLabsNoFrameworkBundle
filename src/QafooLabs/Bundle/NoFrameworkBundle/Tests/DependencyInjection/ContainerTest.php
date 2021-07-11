@@ -4,8 +4,10 @@ namespace QafooLabs\Bundle\NoFrameworkBundle\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use QafooLabs\Bundle\NoFrameworkBundle\DependencyInjection\QafooLabsNoFrameworkExtension;
+use QafooLabs\Bundle\NoFrameworkBundle\View\ExtraBundleInteropTemplateGuesser;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ContainerTest extends TestCase
 {
@@ -29,6 +31,19 @@ class ContainerTest extends TestCase
         $this->assertInstanceOf(
             'QafooLabs\Bundle\NoFrameworkBundle\EventListener\ParamConverterListener',
             $container->get('qafoo_labs_noframework.param_converter_listener')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_decorates_template_guesser():void
+    {
+        $container = $this->createContainer([]);
+
+        $this->assertInstanceOf(
+          ExtraBundleInteropTemplateGuesser::class,
+          $container->get('qafoo_labs_noframework.template_guesser')
         );
     }
 
@@ -67,6 +82,7 @@ class ContainerTest extends TestCase
         $container->set('controller_name_converter', \Phake::mock('Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser'));
         $container->set('logger', \Phake::mock('Psr\Log\LoggerInterface'));
         $container->set('router', \Phake::mock('Symfony\Component\Routing\Generator\UrlGeneratorInterface'));
+        $container->set('request_stack', new RequestStack());
         $container->registerExtension($loader);
         $loader->load(array($config), $container);
 

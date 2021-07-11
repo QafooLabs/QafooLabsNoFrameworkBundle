@@ -59,6 +59,12 @@
             <argument type="service" id="qafoo_labs_noframework.controller.name_parser" />
         </service>
 
+        <service id="qafoo_labs_noframework.extra_bundle_interop_template_guesser" class="QafooLabs\Bundle\NoFrameworkBundle\View\ExtraBundleInteropTemplateGuesser"
+            decorates="qafoo_labs_noframework.template_guesser">
+            <argument type="service" id="qafoo_labs_noframework.extra_bundle_interop_template_guesser.inner" />
+            <argument type="service" id="request_stack" />
+        </service>
+
         <service id="qafoo_labs_noframework.bundle_location" class="QafooLabs\Bundle\NoFrameworkBundle\View\BundleLocation">
             <argument type="service" id="kernel" />
         </service>
